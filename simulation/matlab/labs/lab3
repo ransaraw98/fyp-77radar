@@ -1,0 +1,56 @@
+losslesspropagation
+{Unrecognized function or variable 'losslesspropagation'.
+} 
+touch malb3.m
+{Unrecognized function or variable 'touch'.
+} 
+waves
+waves
+{Unrecognized function or variable 'mur'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('waves', 'C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m', 7)" style="font-weight:bold">waves</a> (<a href="matlab: opentoline('C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m',7,0)">line 7</a>)
+lambda = v_p/f;      eta = sqrt(mu * mur/(epsilon * epsilon_r));
+} 
+waves
+{Unrecognized function or variable 'arrow3'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('waves', 'C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m', 27)" style="font-weight:bold">waves</a> (<a href="matlab: opentoline('C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m',27,0)">line 27</a>)
+arrow3([z zeros(size(z)) zeros(size(z)) ], [z Ex Ey ]) % plot field vectors using
+} 
+waves
+[Warning: Stretch-to-fill scaling not supported;
+use DASPECT or PBASPECT before calling ARROW3.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('arrow3', 'C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\arrow3.m', 396)" style="font-weight:bold">arrow3</a> (<a href="matlab: opentoline('C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\arrow3.m',396,0)">line 396</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('waves', 'C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m', 27)" style="font-weight:bold">waves</a> (<a href="matlab: opentoline('C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m',27,0)">line 27</a>)] 
+{Dot indexing into the result of a function call requires parentheses after the
+function name. The supported syntax is 'arrow3().m'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('waves', 'C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m', 28)" style="font-weight:bold">waves</a> (<a href="matlab: opentoline('C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m',28,0)">line 28</a>)
+arrow3.m
+} 
+waves
+[Warning: Stretch-to-fill scaling not supported;
+use DASPECT or PBASPECT before calling ARROW3.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('arrow3', 'C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\arrow3.m', 396)" style="font-weight:bold">arrow3</a> (<a href="matlab: opentoline('C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\arrow3.m',396,0)">line 396</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('waves', 'C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m', 27)" style="font-weight:bold">waves</a> (<a href="matlab: opentoline('C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m',27,0)">line 27</a>)] 
+{Dot indexing into the result of a function call requires parentheses after the
+function name. The supported syntax is 'arrow3().m'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('waves', 'C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m', 28)" style="font-weight:bold">waves</a> (<a href="matlab: opentoline('C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m',28,0)">line 28</a>)
+arrow3.m
+} 
+waves
+[Warning: Stretch-to-fill scaling not supported;
+use DASPECT or PBASPECT before calling ARROW3.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('arrow3', 'C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\arrow3.m', 396)" style="font-weight:bold">arrow3</a> (<a href="matlab: opentoline('C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\arrow3.m',396,0)">line 396</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('waves', 'C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m', 27)" style="font-weight:bold">waves</a> (<a href="matlab: opentoline('C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m',27,0)">line 27</a>)] 
+{Dot indexing into the result of a function call requires parentheses after the
+function name. The supported syntax is 'arrow3().m'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('waves', 'C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m', 28)" style="font-weight:bold">waves</a> (<a href="matlab: opentoline('C:\Users\menuw\Documents\Modules\FYP\fyp-77radar\simulation\matlab\labs\waves.m',28,0)">line 28</a>)
+arrow3.m
+} 
+dict off
+{Unrecognized function or variable 'dict'.
+} 
+diary off
