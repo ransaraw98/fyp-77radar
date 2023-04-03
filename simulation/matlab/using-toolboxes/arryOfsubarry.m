@@ -4,7 +4,7 @@ N = 16;
 Nsubarray = 2;
 lambda = c/fc;
 Nr = 16;
-Nt = 2;
+Nt = 3;
 dt = Nr*lambda/2; %increasing the spacing between transmit antennas to make a thin-full array
 dr = lambda/2;
 
@@ -13,19 +13,19 @@ antenna_element = phased.CosineAntennaElement;
 antenna_element.FrequencyRange = [73e9 83e9];
 f_1 = figure;
 pattern(antenna_element,fc);
-subula = phased.ULA( 4, dt, 'Element',antenna_element);
+subula = phased.ULA(3, lambda/2, 'Element',antenna_element);
 f0 = figure;
-pattern(subula, fc,0);
+patternAzimuth(subula, fc);
 title('subarray radiation pattern');
 
-txarray = phased.ReplicatedSubarray('Subarray',subula, 'GridSize',[1 Nsubarray]);
+txarray = phased.ReplicatedSubarray('Subarray',subula, 'GridSize',[1 Nsubarray],'GridSpacing',[dt dt]);
 %f1 = figure;
 %pattern(txarray,fc)
 %txarray = phased.ULA(Nt,dt);
 %rxarray = phased.ULA(Nr,dr);
 rxarray = phased.ULA(Nr,dr);
 
-refula = phased.ULA(8,0.5*c/fc,'Element',antenna_element);
+refula = phased.ULA(2,dt,'Element',antenna_element);
 f2= figure;
 subplot(2,1,1), pattern(txarray,fc,-180:180,0,'Type','powerdb','CoordinateSystem','rectangular','PropagationSpeed',c); 
 title('Subarrayed ULA Azimuth Cut'); axis([-90 90 -50 0]);
@@ -37,8 +37,9 @@ ang = -90:90;
 pattx = pattern(txarray,fc,ang,0,'Type','powerdb');
 patrx = pattern(rxarray,fc,ang,0,'Type','powerdb');
 pat2way = pattx+patrx;
-helperPlotMultipledBPattern(ang,[pat2way pattx patrx],[-30 0],{'Two-way Pattern','Tx Pattern','Rx Pattern'},'Patterns of thin/full arrays - 2Tx, 4Rx',{'-','--','-.'});
+helperPlotMultipledBPattern(ang,[pat2way pattx patrx],[-30 0],{'Two-way Pattern','Tx Pattern','Rx Pattern'},'Patterns of thin/full arrays - 2Tx, 16Rx',{'-','--','-.'});
 
+figure;
 varray = phased.ULA(32,dr);
 patv = pattern(varray,fc,ang,0,'Type','powerdb');
 helperPlotMultipledBPattern(ang,[pat2way patv],[-30 0],...
@@ -49,8 +50,8 @@ helperPlotMultipledBPattern(ang,[pat2way patv],[-30 0],...
 waveform = helperDesignFMCWWaveform(c,lambda);
 fs = waveform.SampleRate;
 
-transmitter = phased.Transmitter('PeakPower',0.001,'Gain',36);
-receiver = phased.ReceiverPreamp('Gain',40,'NoiseFigure',4.5,'SampleRate',fs);
+transmitter = phased.Transmitter('PeakPower',0.0588843655,'Gain',3);
+receiver = phased.ReceiverPreamp('Gain',20,'NoiseFigure',12,'SampleRate',fs);
 
 txradiator = phased.Radiator('Sensor',txarray,'OperatingFrequency',fc,...
     'PropagationSpeed',c,'WeightsInputPort',true);
@@ -61,7 +62,7 @@ rxcollector = phased.Collector('Sensor',rxarray,'OperatingFrequency',fc,...
 radar_speed = 100*1000/3600;     % Ego vehicle speed 100 km/h
 radarmotion = phased.Platform('InitialPosition',[0;0;0.5],'Velocity',[radar_speed;0;0]);
 
-car_dist = [40 50];              % Distance between sensor and cars (meters)
+car_dist = [30 50];              % Distance between sensor and cars (meters)
 car_speed = [-80 96]*1000/3600;  % km/h -> m/s
 car_az = [-10 10];
 car_rcs = [20 40];

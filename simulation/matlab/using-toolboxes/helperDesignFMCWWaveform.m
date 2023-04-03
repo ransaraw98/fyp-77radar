@@ -4,9 +4,9 @@ function wav = helperDesignFMCWWaveform(c,lambda)
 
 % Copyright 2017 The MathWorks, Inc.
 
-range_max = 200;
+range_max = 350;
 tm = 5.5*range2time(range_max,c);
-range_res = 1;
+range_res = 3.5;
 bw = rangeres2bw(range_res,c);
 sweep_slope = bw/tm;
 fr_max = range2beat(range_max,sweep_slope,c);
