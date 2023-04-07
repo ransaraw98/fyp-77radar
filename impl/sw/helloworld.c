@@ -33,6 +33,7 @@
 #include "fft.h"
 #include "cplx_data.h"
 #include "stim.h"
+#include "xtime_l.h"
 
 // External data
 extern int sig_two_sine_waves[FFT_MAX_NUM_PTS]; // FFT input data
@@ -46,7 +47,7 @@ int main()
 
 	// Local variables
 	int          status = 0;
-	char         c;
+	//char         c;
 	fft_t*       p_fft_inst;
 	cplx_data_t* stim_buf;
 	cplx_data_t* result_buf;
@@ -89,63 +90,37 @@ int main()
     // Fill stimulus buffer with some signal
     memcpy(stim_buf, sig_two_sine_waves, sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
 
+    XTime begin, end;
+    double time_spent;
+
+    //set fft length
+    fft_set_num_pts(p_fft_inst, 128);
     // Main control loop
-    while (1)
-    {
+   // while (1)
+  //  {
+   // 	}
+    xil_printf("\fAt the for loop!\n\r");
+    XTime_GetTime(&begin);
+    for(int i = 0; i<512; i++){
+        	// Run FFT
 
-    	// Get command
-    	xil_printf("What would you like to do?\n\r");
-    	xil_printf("0: Print current FFT parameters\n\r");
-    	xil_printf("1: Change FFT parameters\n\r");
-    	xil_printf("2: Perform FFT using current parameters\n\r");
-    	xil_printf("3: Print current stimulus to be used for the FFT operation\n\r");
-    	xil_printf("4: Print results of previous FFT operation\n\r");
-    	xil_printf("5: Quit\n\r");
-    	c = XUartPs_RecvByte(XPAR_PS7_UART_1_BASEADDR);
+    			// Make sure the buffer is clear before we populate it (this is generally not necessary and wastes time doing memory accesses, but for proving the DMA working, we do it anyway)
+    			memset(result_buf, 0, sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
 
-    	if (c == '0')
-    	{
-    		xil_printf("---------------------------------------------\n\r");
-    		fft_print_params(p_fft_inst);
-    		xil_printf("---------------------------------------------\n\r");
-    	}
-    	else if (c == '1')
-    	{
-    		which_fft_param(p_fft_inst);
-    	}
-    	else if (c == '2') // Run FFT
-		{
-			// Make sure the buffer is clear before we populate it (this is generally not necessary and wastes time doing memory accesses, but for proving the DMA working, we do it anyway)
-			memset(result_buf, 0, sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
+    			status = fft(p_fft_inst, (cplx_data_t*)stim_buf, (cplx_data_t*)result_buf);
+    			if (status != FFT_SUCCESS)
+    			{
+    				xil_printf("ERROR! FFT failed.\n\r");
+    				return -1;
+    			}
 
-			status = fft(p_fft_inst, (cplx_data_t*)stim_buf, (cplx_data_t*)result_buf);
-			if (status != FFT_SUCCESS)
-			{
-				xil_printf("ERROR! FFT failed.\n\r");
-				return -1;
-			}
+    			//xil_printf("FFT %d complete!\n\r",i);
 
-			xil_printf("FFT complete!\n\r");
-		}
-    	else if (c == '3')
-    	{
-    		fft_print_stim_buf(p_fft_inst);
-    	}
-    	else if (c == '4')
-    	{
-    		fft_print_result_buf(p_fft_inst);
-    	}
-    	else if (c == '5') // Quit
-    	{
-    		xil_printf("Okay, exiting...\n\r");
-    		break;
-    	}
-    	else
-    	{
-    		xil_printf("Invalid character. Please try again.\n\r");
-    	}
+    		}
+	XTime_GetTime(&end);
 
-    }
+	time_spent = (double)((end-begin)/COUNTS_PER_SECOND);
+	xil_printf("Time spent = %f \n\r",(float)time_spent);
 
     free(stim_buf);
     free(result_buf);
