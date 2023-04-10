@@ -331,15 +331,17 @@ proc create_hier_cell_accelerator { parentCell nameHier } {
   # Create instance: xfft_0, and set properties
   set xfft_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xfft:9.1 xfft_0 ]
   set_property -dict [ list \
+   CONFIG.butterfly_type {use_luts} \
    CONFIG.complex_mult_type {use_mults_performance} \
-   CONFIG.implementation_options {radix_4_burst_io} \
-   CONFIG.number_of_stages_using_block_ram_for_data_and_phase_factors {0} \
+   CONFIG.implementation_options {pipelined_streaming_io} \
+   CONFIG.input_width {16} \
+   CONFIG.number_of_stages_using_block_ram_for_data_and_phase_factors {2} \
    CONFIG.output_ordering {natural_order} \
    CONFIG.run_time_configurable_transform_length {true} \
-   CONFIG.target_clock_frequency {200} \
+   CONFIG.target_clock_frequency {100} \
    CONFIG.target_data_throughput {50} \
    CONFIG.throttle_scheme {nonrealtime} \
-   CONFIG.transform_length {16384} \
+   CONFIG.transform_length {512} \
  ] $xfft_0
 
   # Create interface connections
