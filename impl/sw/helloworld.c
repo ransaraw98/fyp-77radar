@@ -122,6 +122,9 @@ int main()
 	time_spent = (double)((end-begin)/COUNTS_PER_SECOND);
 	xil_printf("Time spent = %f \n\r",(float)time_spent);
 
+
+	fft_print_result_buf(p_fft_inst);
+
     free(stim_buf);
     free(result_buf);
     fft_destroy(p_fft_inst);
