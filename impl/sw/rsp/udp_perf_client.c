@@ -142,7 +142,7 @@ static void reset_stats(void)
 	client.i_report.last_report_time = 0;
 }
 
-void udp_packet_send(u8_t finished)
+void udp_packet_send(u8_t finished, char *data)
 {
 	//int *payload;
 	//static int packet_id;
@@ -156,7 +156,7 @@ void udp_packet_send(u8_t finished)
 			xil_printf("error allocating pbuf to send\r\n");
 			return;
 		} else {
-			memcpy(packet->payload, send_buf, UDP_SEND_BUFSIZE);
+			memcpy(packet->payload, data, UDP_SEND_BUFSIZE);
 		}
 		/* no need of packet id */
 		/* always increment the id */
@@ -209,7 +209,8 @@ void udp_packet_send(u8_t finished)
 }
 
 /** Transmit data on a udp session */
-void transfer_data(void)
+/*
+void transfer_data()
 {
 	int i = 0;
 	for (i = 0; i < NUM_OF_PARALLEL_CLIENTS; i++) {
@@ -233,11 +234,11 @@ void transfer_data(void)
 		}
 
 		if (END_TIME) {
-			/* this session is time-limited */
+			/* this session is time-limited
 			u64_t diff_ms = now - client.start_time;
 			if (diff_ms >= END_TIME) {
 				/* time specified is over,
-				 * close the connection */
+				 * close the connection
 				udp_packet_send(FINISH);
 				udp_conn_report(diff_ms, UDP_DONE_CLIENT);
 				xil_printf("UDP test passed Successfully\n\r");
@@ -248,7 +249,7 @@ void transfer_data(void)
 
 	udp_packet_send(!FINISH);
 }
-
+*/
 void start_application(void)
 {
 	err_t err;
