@@ -60,7 +60,7 @@ extern volatile int TcpSlowTmrFlag;
 
 void platform_enable_interrupts(void);
 void start_application(void);
-void transfer_data(void);
+void transfer_data(char* data);
 void print_app_header(void);
 
 #if defined (__arm__) && !defined (ARMR5)
@@ -78,7 +78,7 @@ int IicPhyReset(void);
 #endif
 
 #ifndef UDP_SEND_BUFSIZE
-#define UDP_SEND_BUFSIZE 1436
+#define UDP_SEND_BUFSIZE 512
 #endif
 
 #ifndef FINISH
@@ -88,8 +88,8 @@ struct netif server_netif;
 //
 int i =0;
 extern char send_buf[UDP_SEND_BUFSIZE];
-
-extern void udp_packet_send(u8_t finished);
+char tx_buffer[UDP_SEND_BUFSIZE];
+extern void udp_packet_send(u8_t finished, char *data);
 // External data
 extern int sig_two_sine_waves[FFT_MAX_NUM_PTS]; // FFT input data
 void which_fft_param(fft_t* p_fft_inst);
@@ -249,14 +249,16 @@ int main(void)
 	/* print app header */
 	print_app_header();
 
-	/* start the application*/
+	/* start the ip application*/
 	start_application();
 	xil_printf("\r\n");
 
 	// Process FFT one time
 	xil_printf("\fAt the for loop!\n\r");
-	    XTime_GetTime(&begin);
-	    for(int i = 0; i<512; i++){
+	    //XTime_GetTime(&begin);
+	    int i = 0;
+	    if(i<512){
+	    		i++;
 	        	// Run FFT
 
 	    			// Make sure the buffer is clear before we populate it (this is generally not necessary and wastes time doing memory accesses, but for proving the DMA working, we do it anyway)
@@ -268,21 +270,24 @@ int main(void)
 	    				xil_printf("ERROR! FFT failed.\n\r");
 	    				return -1;
 	    			}
-
-	    			//xil_printf("FFT %d complete!\n\r",i);
-
 	    		}
-		XTime_GetTime(&end);
+	    else{
+	    	i = 0;
+	    }
+		//XTime_GetTime(&end);
 
-		time_spent = (double)((end-begin)/COUNTS_PER_SECOND);
-		xil_printf("Time spent = %f \n\r",(float)time_spent);
+		//time_spent = (double)((end-begin)/COUNTS_PER_SECOND);
+		//xil_printf("Time spent = %f \n\r",(float)time_spent);
+		//memcpy(tx_buffer, result_buf, 128*4);
+		//xil_printf("FFT %d complete!\n\r",i);
 
-
+		/*if(i==1){
 		fft_print_result_buf(p_fft_inst);
+		}*/
 
-	    free(stim_buf);
-	    free(result_buf);
-	    fft_destroy(p_fft_inst);
+	    //free(stim_buf);
+	   // free(result_buf);
+	   // fft_destroy(p_fft_inst);
 
 	while (1) {
 		if (TcpFastTmrFlag) {
@@ -293,11 +298,18 @@ int main(void)
 			tcp_slowtmr();
 			TcpSlowTmrFlag = 0;
 		}
+		status = fft(p_fft_inst, (cplx_data_t*)stim_buf, (cplx_data_t*)result_buf);
+		if (status != FFT_SUCCESS)
+		{
+			xil_printf("ERROR! FFT failed.\n\r");
+			return -1;
+		}
+
 		xemacif_input(netif);
 		//transfer_data();
 		for (i = 0; i < UDP_SEND_BUFSIZE; i++)
 			send_buf[i] = (65 + i%10);
-		udp_packet_send(!FINISH);
+		udp_packet_send(!FINISH,result_buf);
 	}
 
 	/* never reached */
