@@ -123,7 +123,7 @@ fft_t* fft_create(int gpio_device_id, int dma_device_id, int intc_device_id, int
 
 	// Initialize FFT parameters
 	fft_set_fwd_inv(p_obj, FFT_FORWARD);
-	status = fft_set_num_pts(p_obj, 1024);
+	status = fft_set_num_pts(p_obj, 512);
 	if (status != FFT_SUCCESS)
 	{
 		xil_printf("ERROR! Failed to initialize the number of points in the FFT.\n\r");

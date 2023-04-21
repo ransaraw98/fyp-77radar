@@ -190,6 +190,12 @@ void platform_setup_interrupts(void)
 					(Xil_ExceptionHandler)timer_callback,
 					(void *)&TimerInstance);
 	/*
+	XScuGic_SetPriorityTriggerType(p_xInterruptController,
+										XPAR_PS7_SCUTIMER_0_INTR,
+										SCU_TIMER_INTR_PRI,
+										SCU_TIMER_INTR_TRIG);
+*/
+	/*
 	 * Enable the interrupt for scu timer.
 	 */
 	XScuGic_EnableIntr(INTC_DIST_BASE_ADDR, TIMER_IRPT_INTR);

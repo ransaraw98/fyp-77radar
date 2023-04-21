@@ -60,6 +60,7 @@ volatile int TcpSlowTmrFlag = 0;
 /*#include "psu_init.h"*/
 
 volatile u64_t tickcntr = 0;
+/*
 void
 timer_callback()
 {
@@ -67,7 +68,7 @@ timer_callback()
 	 * by lwIP.
 	 * It is not important that the timing is absoluetly accurate.
 	 */
-	static int odd = 1;
+/*	static int odd = 1;
 #if LWIP_DHCP==1
 	static int dhcp_timer = 0;
 #endif
@@ -93,7 +94,7 @@ timer_callback()
 		}
 	}
 }
-
+*/
 static XIntc intc;
 
 void platform_setup_interrupts()

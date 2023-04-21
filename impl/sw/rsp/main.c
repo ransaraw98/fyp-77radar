@@ -59,6 +59,8 @@ extern volatile int TcpSlowTmrFlag;
 #define DEFAULT_IP_MASK		"255.255.255.0"
 #define DEFAULT_GW_ADDRESS	"192.168.1.1"
 
+#define FRAME_LENGTH 512
+
 void platform_enable_interrupts(void);
 void start_application(void);
 void transfer_data(char* data);
@@ -157,11 +159,12 @@ int main(void)
 	fft_t*       p_fft_inst;
 	cplx_data_t* stim_buf;
 	cplx_data_t* result_buf;
-	init_platform();
+	cplx_data_t 	range_fft[512][128];
+	//init_platform();
 
 	xil_printf("\r\n\r\n");
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~SETUP FFT~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	 xil_printf("\fHello World!\n\r");
+	 xil_printf("\fFFT core setup!\n\r");
 
 	    // Create FFT object
 	    p_fft_inst = fft_create
@@ -179,7 +182,7 @@ int main(void)
 	    }
 
 	    // Allocate data buffers
-	    stim_buf = (cplx_data_t*) malloc(sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
+	    stim_buf = (cplx_data_t*) malloc(sizeof(cplx_data_t)*FFT_MAX_NUM_PTS*FRAME_LENGTH);
 	    if (stim_buf == NULL)
 	    {
 	    	xil_printf("ERROR! Failed to allocate memory for the stimulus buffer.\n\r");
@@ -196,11 +199,14 @@ int main(void)
 	    // Fill stimulus buffer with some signal
 	    memcpy(stim_buf, signal_data[0], sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
 
-	    XTime begin, end;
-	    double time_spent;
+	   // XTime begin, end;
+	   // double time_spent;
 
 	    //Set FFT length
 	    fft_set_num_pts(p_fft_inst, 128);
+
+	//Setup timer interrupts and timers
+	    //init_platform();
 
 	xil_printf("-----lwIP RAW Mode UDP Client Application-----\r\n");
 
@@ -216,7 +222,7 @@ int main(void)
 	netif_set_default(netif);
 
 	/* now enable interrupts */
-	platform_enable_interrupts();
+	//platform_enable_interrupts();
 
 	/* specify that the network if is up */
 	netif_set_up(netif);
@@ -254,12 +260,8 @@ int main(void)
 	start_application();
 	xil_printf("\r\n");
 
-	// Process FFT one time
 	xil_printf("\fAt the for loop!\n\r");
 	    //XTime_GetTime(&begin);
-	    int i = 0;
-	    if(i<512){
-	    		i++;
 	        	// Run FFT
 
 	    			// Make sure the buffer is clear before we populate it (this is generally not necessary and wastes time doing memory accesses, but for proving the DMA working, we do it anyway)
@@ -271,11 +273,8 @@ int main(void)
 	    				xil_printf("ERROR! FFT failed.\n\r");
 	    				return -1;
 	    			}
-	    		}
-	    else{
-	    	i = 0;
-	    }
-		//XTime_GetTime(&end);
+	    			xil_printf("FFT single process OK.\n\r");
+	    //XTime_GetTime(&end);
 
 		//time_spent = (double)((end-begin)/COUNTS_PER_SECOND);
 		//xil_printf("Time spent = %f \n\r",(float)time_spent);
@@ -291,31 +290,28 @@ int main(void)
 	   // fft_destroy(p_fft_inst);
 unsigned int j =0;
 	while (1) {
-		j++;
-		if (TcpFastTmrFlag) {
-			tcp_fasttmr();
-			TcpFastTmrFlag = 0;
-		}
-		if (TcpSlowTmrFlag) {
-			tcp_slowtmr();
-			TcpSlowTmrFlag = 0;
-		}
-		status = fft(p_fft_inst, (cplx_data_t*)stim_buf, (cplx_data_t*)result_buf);
-		if (status != FFT_SUCCESS)
-		{
-			xil_printf("ERROR! FFT failed.\n\r");
-			return -1;
-		}
-		else if(j == 100000000) {
-			xil_printf("FFT success %d \n\r",result_buf[1].data_re);
-			j =0;
-		}
-		usleep(50);
+		//if (TcpFastTmrFlag) {
+		//	tcp_fasttmr();
+		//	TcpFastTmrFlag = 0;
+		//}
+		//if (TcpSlowTmrFlag) {
+		//	tcp_slowtmr();
+		//	TcpSlowTmrFlag = 0;
+		//}
+	//	for(j=0; j<128; j++){
+			status = fft(p_fft_inst, (cplx_data_t*)stim_buf, (cplx_data_t*)result_buf);
+			if (status != FFT_SUCCESS)
+			{
+				xil_printf("ERROR! FFT failed.\n\r");
+				return -1;
+			}
+	//	}
+		usleep(200);
 		xemacif_input(netif);
 		//transfer_data();
 		//for (i = 0; i < UDP_SEND_BUFSIZE; i++)
 		//	send_buf[i] = (65 + i%10);
-		for (int i = 0; i <1000;i++){
+		for (int i = 0; i <512;i++){
 		udp_packet_send(!FINISH,result_buf);
 		}
 	}
