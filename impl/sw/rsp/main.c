@@ -45,6 +45,7 @@
 #include "cplx_data.h"
 #include "stim.h"
 #include "xtime_l.h"
+#include "signal_data.h"
 
 #if LWIP_DHCP==1
 #include "lwip/dhcp.h"
@@ -193,7 +194,7 @@ int main(void)
 	    }
 
 	    // Fill stimulus buffer with some signal
-	    memcpy(stim_buf, sig_two_sine_waves, sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
+	    memcpy(stim_buf, signal_data[0], sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
 
 	    XTime begin, end;
 	    double time_spent;
@@ -288,8 +289,9 @@ int main(void)
 	    //free(stim_buf);
 	   // free(result_buf);
 	   // fft_destroy(p_fft_inst);
-
+unsigned int j =0;
 	while (1) {
+		j++;
 		if (TcpFastTmrFlag) {
 			tcp_fasttmr();
 			TcpFastTmrFlag = 0;
@@ -304,12 +306,18 @@ int main(void)
 			xil_printf("ERROR! FFT failed.\n\r");
 			return -1;
 		}
-
+		else if(j == 100000000) {
+			xil_printf("FFT success %d \n\r",result_buf[1].data_re);
+			j =0;
+		}
+		usleep(50);
 		xemacif_input(netif);
 		//transfer_data();
-		for (i = 0; i < UDP_SEND_BUFSIZE; i++)
-			send_buf[i] = (65 + i%10);
+		//for (i = 0; i < UDP_SEND_BUFSIZE; i++)
+		//	send_buf[i] = (65 + i%10);
+		for (int i = 0; i <1000;i++){
 		udp_packet_send(!FINISH,result_buf);
+		}
 	}
 
 	/* never reached */

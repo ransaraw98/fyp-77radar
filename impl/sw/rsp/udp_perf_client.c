@@ -29,7 +29,7 @@
 /* Connection handle for a UDP Client session */
 
 #include "udp_perf_client.h"
-
+#include "cplx_data.h"
 extern struct netif server_netif;
 static struct udp_pcb *pcb;  			// only one pcb
 static struct perf_stats client;
@@ -142,7 +142,7 @@ static void reset_stats(void)
 	client.i_report.last_report_time = 0;
 }
 
-void udp_packet_send(u8_t finished, char *data)
+void udp_packet_send(u8_t finished, char* *data)
 {
 	//int *payload;
 	//static int packet_id;
