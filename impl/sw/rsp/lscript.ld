@@ -23,10 +23,18 @@ _UNDEF_STACK_SIZE = DEFINED(_UNDEF_STACK_SIZE) ? _UNDEF_STACK_SIZE : 1024;
 
 MEMORY
 {
-   ps7_ddr_0 : ORIGIN = 0x100000, LENGTH = 0x1FF00000
+   ps7_ddr_0 : ORIGIN = 0x100000, LENGTH = 0x10000000
    ps7_qspi_linear_0 : ORIGIN = 0xFC000000, LENGTH = 0x1000000
    ps7_ram_0 : ORIGIN = 0x0, LENGTH = 0x30000
    ps7_ram_1 : ORIGIN = 0xFFFF0000, LENGTH = 0xFE00
+   BUF1_4MB  : ORIGIN = 0x10100000, LENGTH = 0x400000
+   BUF2_4MB  : ORIGIN = 0x10500000, LENGTH = 0x400000
+   BUF3_4MB  : ORIGIN = 0x10900000, LENGTH = 0x400000
+   BUF4_4MB  : ORIGIN = 0x10D00000, LENGTH = 0x400000
+   BUF5_4MB  : ORIGIN = 0x11100000, LENGTH = 0x400000
+   BUF6_4MB  : ORIGIN = 0x11500000, LENGTH = 0x400000
+   BUF7_4MB  : ORIGIN = 0x11900000, LENGTH = 0x400000
+   BUF8_4MB  : ORIGIN = 0x11D00000, LENGTH = 0x400000
 }
 
 /* Specify the default entry point to the program */
@@ -51,15 +59,15 @@ SECTIONS
    *(.vfp11_veneer)
    *(.ARM.extab)
    *(.gnu.linkonce.armextab.*)
-} > ps7_ddr_0
+} > ps7_ram_0
 
 .init : {
    KEEP (*(.init))
-} > ps7_ddr_0
+} > ps7_ram_0
 
 .fini : {
    KEEP (*(.fini))
-} > ps7_ddr_0
+} > ps7_ram_0
 
 .rodata : {
    __rodata_start = .;
@@ -228,6 +236,8 @@ SECTIONS
    __tbss_end = .;
 } > ps7_ddr_0
 
+
+
 .bss (NOLOAD) : {
    __bss_start = .;
    *(.bss)
@@ -282,6 +292,19 @@ _SDA2_BASE_ = __sdata2_start + ((__sbss2_end - __sdata2_start) / 2 );
    . = ALIGN(16);
    __undef_stack = .;
 } > ps7_ddr_0
+
+/* new array section */
+.buf1_ptr : {
+  __buf_1_start = . ;
+  *(.buf1_ptr)
+  __buf_1_end = . ;
+} > BUF1_4MB
+
+.buf2_ptr : {
+  __buf_2_start = . ;
+  *(.buf2_ptr)
+  __buf_2_end = . ;
+} > BUF2_4MB
 
 _end = .;
 }

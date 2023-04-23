@@ -142,7 +142,7 @@ static void reset_stats(void)
 	client.i_report.last_report_time = 0;
 }
 
-void udp_packet_send(u8_t finished, char* *data)
+void udp_packet_send(u8_t finished, char* data)
 {
 	//int *payload;
 	//static int packet_id;
@@ -151,7 +151,7 @@ void udp_packet_send(u8_t finished, char* *data)
 	struct pbuf *packet;
 	err_t err;
 
-		packet = pbuf_alloc(PBUF_TRANSPORT, UDP_SEND_BUFSIZE, PBUF_POOL);
+		packet = pbuf_alloc(PBUF_TRANSPORT, UDP_SEND_BUFSIZE, PBUF_RAM);
 		if (!packet) {
 			xil_printf("error allocating pbuf to send\r\n");
 			return;

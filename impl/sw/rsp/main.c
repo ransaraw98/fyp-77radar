@@ -46,6 +46,7 @@
 #include "stim.h"
 #include "xtime_l.h"
 #include "signal_data.h"
+#include "queue.h"
 
 #if LWIP_DHCP==1
 #include "lwip/dhcp.h"
@@ -65,6 +66,10 @@ void platform_enable_interrupts(void);
 void start_application(void);
 void transfer_data(char* data);
 void print_app_header(void);
+
+/* queue function prototypes */
+queue_t* queue_create(int capacity,unsigned int datalen);
+
 
 #if defined (__arm__) && !defined (ARMR5)
 #if XPAR_GIGE_PCS_PMA_SGMII_CORE_PRESENT == 1 || \
@@ -130,6 +135,13 @@ static void assign_default_ip(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
 	if (!err)
 		xil_printf("Invalid default gateway address: %d\r\n", err);
 }
+extern void * __buf_1_start;
+extern void * __buf_2_start;
+
+//cplx_data_t* stim_buf __attribute__((section("BUF2_4MB")));
+cplx_data_t* stim_buf = (cplx_data_t *)&__buf_1_start;
+//cplx_data_t* result_buf __attribute__((section("BUF1_4MB")));
+cplx_data_t* result_buf = (cplx_data_t *)&__buf_2_start;
 
 int main(void)
 {
@@ -157,8 +169,6 @@ int main(void)
 	// Local variables for fft
 	int          status = 0;
 	fft_t*       p_fft_inst;
-	cplx_data_t* stim_buf;
-	cplx_data_t* result_buf;
 	cplx_data_t 	range_fft[512][128];
 	//init_platform();
 
@@ -182,19 +192,19 @@ int main(void)
 	    }
 
 	    // Allocate data buffers
-	    stim_buf = (cplx_data_t*) malloc(sizeof(cplx_data_t)*FFT_MAX_NUM_PTS*FRAME_LENGTH);
-	    if (stim_buf == NULL)
-	    {
-	    	xil_printf("ERROR! Failed to allocate memory for the stimulus buffer.\n\r");
-	    	return -1;
-	    }
+	    //stim_buf = (cplx_data_t*) malloc(sizeof(cplx_data_t)*FFT_MAX_NUM_PTS*FRAME_LENGTH);
+	    //if (stim_buf == NULL)
+	    //{
+	    //	xil_printf("ERROR! Failed to allocate memory for the stimulus buffer.\n\r");
+	    //	return -1;
+	    //}
 
-	    result_buf = (cplx_data_t*) malloc(sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
-	    if (result_buf == NULL)
-	    {
-	    	xil_printf("ERROR! Failed to allocate memory for the result buffer.\n\r");
-	    	return -1;
-	    }
+	    //result_buf = (cplx_data_t*) malloc(sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
+	    //if (result_buf == NULL)
+	    //{
+	    //	xil_printf("ERROR! Failed to allocate memory for the result buffer.\n\r");
+	    //	return -1;
+	    //}
 
 	    // Fill stimulus buffer with some signal
 	    memcpy(stim_buf, signal_data[0], sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
@@ -265,7 +275,8 @@ int main(void)
 	        	// Run FFT
 
 	    			// Make sure the buffer is clear before we populate it (this is generally not necessary and wastes time doing memory accesses, but for proving the DMA working, we do it anyway)
-	    			memset(result_buf, 0, sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
+
+					memset(result_buf, 0, sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
 
 	    			status = fft(p_fft_inst, (cplx_data_t*)stim_buf, (cplx_data_t*)result_buf);
 	    			if (status != FFT_SUCCESS)
@@ -289,6 +300,10 @@ int main(void)
 	   // free(result_buf);
 	   // fft_destroy(p_fft_inst);
 unsigned int j =0;
+int capacity = 10;
+cplx_data_t * dequeued_data;
+queue_t* queue = queue_create(capacity,RANGE_FFT_SIZE);
+
 	while (1) {
 		//if (TcpFastTmrFlag) {
 		//	tcp_fasttmr();
@@ -298,22 +313,25 @@ unsigned int j =0;
 		//	tcp_slowtmr();
 		//	TcpSlowTmrFlag = 0;
 		//}
-	//	for(j=0; j<128; j++){
+		for(j=0; j<128; j++){
+			//memcpy(stim_buf, signal_data[j], sizeof(cplx_data_t)*FFT_MAX_NUM_PTS);
 			status = fft(p_fft_inst, (cplx_data_t*)stim_buf, (cplx_data_t*)result_buf);
+			queue_enqueue(queue, result_buf);
 			if (status != FFT_SUCCESS)
 			{
 				xil_printf("ERROR! FFT failed.\n\r");
 				return -1;
 			}
-	//	}
+		}
 		usleep(200);
 		xemacif_input(netif);
 		//transfer_data();
 		//for (i = 0; i < UDP_SEND_BUFSIZE; i++)
 		//	send_buf[i] = (65 + i%10);
-		for (int i = 0; i <512;i++){
-		udp_packet_send(!FINISH,result_buf);
-		}
+		//for (int i = 0; i <512;i++){
+		dequeued_data = queue_dequeue(queue);
+		udp_packet_send(!FINISH,dequeued_data);
+		//}
 	}
 
 	/* never reached */
