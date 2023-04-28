@@ -74,7 +74,7 @@ extern void xil_printf(const char *format, ...);
 			DEFAULT SET TO 0x01000000
 #define MEM_BASE_ADDR		0x01000000
 #else
-#define MEM_BASE_ADDR		(DDR_BASE_ADDR + 0x1000000)
+#define MEM_BASE_ADDR		(DDR_BASE_ADDR + 0x1000000) // leave 16 MB from base, use this for heap and stack.
 #endif
 
 #ifdef XPAR_INTC_0_DEVICE_ID
@@ -86,12 +86,12 @@ extern void xil_printf(const char *format, ...);
 #endif
 
 #define RX_BD_SPACE_BASE	(MEM_BASE_ADDR)
-#define RX_BD_SPACE_HIGH	(MEM_BASE_ADDR + 0x0000FFFF)
+#define RX_BD_SPACE_HIGH	(MEM_BASE_ADDR + 0x0000FFFF)	//64KB buffer descriptors
 #define TX_BD_SPACE_BASE	(MEM_BASE_ADDR + 0x00010000)
 #define TX_BD_SPACE_HIGH	(MEM_BASE_ADDR + 0x0001FFFF)
-#define TX_BUFFER_BASE		(MEM_BASE_ADDR + 0x00100000)
-#define RX_BUFFER_BASE		(MEM_BASE_ADDR + 0x00300000)
-#define RX_BUFFER_HIGH		(MEM_BASE_ADDR + 0x004FFFFF)
+#define TX_BUFFER_BASE		(MEM_BASE_ADDR + 0x00100000)	//MEM_BASE_ADDR + 1MB starting point
+#define RX_BUFFER_BASE		(MEM_BASE_ADDR + 0x00300000)	//2MB TX buffer
+#define RX_BUFFER_HIGH		(MEM_BASE_ADDR + 0x004FFFFF)	//2MB RX buffer
 
 #ifdef XPAR_INTC_0_DEVICE_ID
 #define INTC_DEVICE_ID          XPAR_INTC_0_DEVICE_ID
@@ -106,7 +106,7 @@ extern void xil_printf(const char *format, ...);
 /*
  * Buffer and Buffer Descriptor related constant definition
  */
-#define MAX_PKT_LEN		0x100
+#define MAX_PKT_LEN		0x1000
 #define MARK_UNCACHEABLE        0x701
 
 /*
@@ -248,48 +248,8 @@ void task1(void *pvParameters)
 	//static int SetupIntrSystem(INTC * IntcInstancePtr,
 	//			   XAxiDma * AxiDmaPtr, u16 TxIntrId, u16 RxIntrId)
 	//{
-		XAxiDma_BdRing *TxRingPtr = XAxiDma_GetTxRing(&AxiDma);
+	/*	XAxiDma_BdRing *TxRingPtr = XAxiDma_GetTxRing(&AxiDma);
 		XAxiDma_BdRing *RxRingPtr = XAxiDma_GetRxRing(&AxiDma);
-		//int Status;
-
-	#ifdef XPAR_INTC_0_DEVICE_ID
-
-		/* Initialize the interrupt controller and connect the ISRs */
-		Status = XIntc_Initialize(&Intc, INTC_DEVICE_ID);
-		if (Status != XST_SUCCESS) {
-
-			xil_printf("Failed init intc\r\n");
-			return XST_FAILURE;
-		}
-
-		Status = XIntc_Connect(&Intc, TX_INTR_ID,
-				       (XInterruptHandler) TxIntrHandler, TxRingPtr);
-		if (Status != XST_SUCCESS) {
-
-			xil_printf("Failed tx connect intc\r\n");
-			return XST_FAILURE;
-		}
-
-		Status = XIntc_Connect(&Intc, RX_INTR_ID,
-				       (XInterruptHandler) RxIntrHandler, RxRingPtr);
-		if (Status != XST_SUCCESS) {
-
-			xil_printf("Failed rx connect intc\r\n");
-			return XST_FAILURE;
-		}
-
-		/* Start the interrupt controller */
-		Status = XIntc_Start(&Intc, XIN_REAL_MODE);
-		if (Status != XST_SUCCESS) {
-
-			xil_printf("Failed to start intc\r\n");
-			return XST_FAILURE;
-		}
-
-		XIntc_Enable(&Intc, TX_INTR_ID);
-		XIntc_Enable(&Intc, RX_INTR_ID);
-
-	#else
 
 		XScuGic_Config *IntcConfig;
 
@@ -298,7 +258,7 @@ void task1(void *pvParameters)
 		 * Initialize the interrupt controller driver so that it is ready to
 		 * use.
 		 */
-		IntcConfig = XScuGic_LookupConfig(INTC_DEVICE_ID);
+	/*	IntcConfig = XScuGic_LookupConfig(INTC_DEVICE_ID);
 		if (NULL == IntcConfig) {
 			return XST_FAILURE;
 		}
@@ -318,7 +278,7 @@ void task1(void *pvParameters)
 		 * interrupt for the device occurs, the handler defined above performs
 		 * the specific interrupt processing for the device.
 		 */
-		Status = XScuGic_Connect(&Intc, TX_INTR_ID,
+	/*	Status = XScuGic_Connect(&Intc, TX_INTR_ID,
 					(Xil_InterruptHandler)TxIntrHandler,
 					TxRingPtr);
 		if (Status != XST_SUCCESS) {
@@ -334,17 +294,17 @@ void task1(void *pvParameters)
 
 		XScuGic_Enable(&Intc, TX_INTR_ID);
 		XScuGic_Enable(&Intc, RX_INTR_ID);
-	#endif
+	//#endif
 
 		/* Enable interrupts from the hardware */
 
-		Xil_ExceptionInit();
+/*		Xil_ExceptionInit();
 		Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_INT,
 				(Xil_ExceptionHandler)INTC_HANDLER,
 				(void *)&Intc);
 
 		Xil_ExceptionEnable();
-
+*/
 		/************************************************************************/
 	//if (Status != XST_SUCCESS) {
 
@@ -447,6 +407,67 @@ void task3(void *pvParameters)
 
 int main()
 {
+
+	//Setup interrupts
+		int Status;
+		XAxiDma_BdRing *TxRingPtr = XAxiDma_GetTxRing(&AxiDma);
+			XAxiDma_BdRing *RxRingPtr = XAxiDma_GetRxRing(&AxiDma);
+
+			XScuGic_Config *IntcConfig;
+
+
+			/*
+			 * Initialize the interrupt controller driver so that it is ready to
+			 * use.
+			 */
+			IntcConfig = XScuGic_LookupConfig(INTC_DEVICE_ID);
+			if (NULL == IntcConfig) {
+				return XST_FAILURE;
+			}
+
+			Status = XScuGic_CfgInitialize(&Intc, IntcConfig,
+							IntcConfig->CpuBaseAddress);
+			if (Status != XST_SUCCESS) {
+				return XST_FAILURE;
+			}
+
+
+			XScuGic_SetPriorityTriggerType(&Intc, TX_INTR_ID, 0xA0, 0x3);
+
+			XScuGic_SetPriorityTriggerType(&Intc, RX_INTR_ID, 0xA0, 0x3);
+			/*
+			 * Connect the device driver handler that will be called when an
+			 * interrupt for the device occurs, the handler defined above performs
+			 * the specific interrupt processing for the device.
+			 */
+			Status = XScuGic_Connect(&Intc, TX_INTR_ID,
+						(Xil_InterruptHandler)TxIntrHandler,
+						TxRingPtr);
+			if (Status != XST_SUCCESS) {
+				return Status;
+			}
+
+			Status = XScuGic_Connect(&Intc, RX_INTR_ID,
+						(Xil_InterruptHandler)RxIntrHandler,
+						RxRingPtr);
+			if (Status != XST_SUCCESS) {
+				return Status;
+			}
+
+			XScuGic_Enable(&Intc, TX_INTR_ID);
+			XScuGic_Enable(&Intc, RX_INTR_ID);
+		//#endif
+
+			/* Enable interrupts from the hardware */
+
+			Xil_ExceptionInit();
+			Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_INT,
+					(Xil_ExceptionHandler)INTC_HANDLER,
+					(void *)&Intc);
+
+			Xil_ExceptionEnable();
+
+
     // Create the tasks
     xTaskCreate(task1, "Task 1", TASK1_STACK_SIZE, NULL, TASK1_PRIORITY, &task1_handle);
     //xTaskCreate(task2, "Task 2", TASK2_STACK_SIZE, NULL, TASK2_PRIORITY, &task2_handle);
