@@ -40,7 +40,7 @@ static int sock[NUM_OF_PARALLEL_CLIENTS];
 #define REPORT_INTERVAL_TIME (INTERIM_REPORT_INTERVAL * 1000)
 /* End time in ms */
 #define END_TIME (UDP_TIME_INTERVAL * 1000)
-
+#define RX_BUFFER_BASE 0x1300000
 void print_app_header(void)
 {
 	xil_printf("UDP client connecting to %s on port %d\r\n",
@@ -154,7 +154,8 @@ static int udp_packet_send(u8_t finished)
 	u8_t retries = MAX_SEND_RETRY;
 	socklen_t len = sizeof(addr);
 
-	payload = (int*) (send_buf);
+	//payload = (int*) (send_buf);
+	payload = (int*) (RX_BUFFER_BASE);
 	if (finished == FINISH)
 		packet_id = -1;
 	*payload = htonl(packet_id);
@@ -164,7 +165,7 @@ static int udp_packet_send(u8_t finished)
 
 	for (i = 0; i < NUM_OF_PARALLEL_CLIENTS; i++) {
 		while (retries) {
-			count = lwip_sendto(sock[i], send_buf, sizeof(send_buf), 0,
+			count = lwip_sendto(sock[i], (void *)RX_BUFFER_BASE, sizeof(send_buf), 0,
 					(struct sockaddr *)&addr, len);
 			if (count <= 0) {
 				retries--;
