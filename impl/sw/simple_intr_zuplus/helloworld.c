@@ -271,6 +271,7 @@ volatile int Error;
 int j = 0;
 int k = 0;
 int xferD = 0;
+u32 *RxBufferPtr;
 /*****************************************************************************/
 /**
 *
@@ -303,7 +304,6 @@ int main(void)
 	int Tries = NUMBER_OF_TRANSFERS;
 	int Index;
 	u32 *TxBufferPtr;
-	u32 *RxBufferPtr;
 	u8 Value;
 
 	TxBufferPtr = (u32 *)TX_BUFFER_BASE ;
@@ -469,7 +469,7 @@ int main(void)
 				return XST_FAILURE;
 			}
 	/* Send a packet */
-
+	/************************************* 	SUPER LOOP START *******************************************/
 	while(1) {
 		//j ++;
 		//for (int i = 0; i < 512;  i++ ){

@@ -29,11 +29,12 @@
 /* Connection handle for a UDP Client session */
 
 #include "udp_perf_client.h"
-
+#include "xil_mem.h"
 extern struct netif server_netif;
 static struct udp_pcb *pcb[NUM_OF_PARALLEL_CLIENTS];
 static struct perf_stats client;
 static char send_buf[UDP_SEND_BUFSIZE];
+extern u32 *RxBufferPtr;
 #define FINISH	1
 /* Report interval time in ms */
 #define REPORT_INTERVAL_TIME (INTERIM_REPORT_INTERVAL * 1000)
@@ -159,7 +160,9 @@ static void udp_packet_send(u8_t finished)
 			xil_printf("error allocating pbuf to send\r\n");
 			return;
 		} else {
-			memcpy(packet->payload, send_buf, UDP_SEND_BUFSIZE);
+			//Xil_MemCpy(packet->payload, RxBufferPtr, UDP_SEND_BUFSIZE);
+			memcpy(packet->payload, RxBufferPtr, UDP_SEND_BUFSIZE);
+			//memcpy(packet->payload, send_buf, UDP_SEND_BUFSIZE);
 		}
 
 		/* always increment the id */
