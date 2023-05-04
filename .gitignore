@@ -3,3 +3,5 @@
 /simulation/antenna/series_fed_patch.aedtresults
 /impl/proj/
 /impl/tcl/NA/
+/impl/matlab/signal.mat
+/impl/matlab/signal_data.h
