@@ -80,6 +80,7 @@
 
 /***************************** Include Files *********************************/
 
+#include <stdio.h>
 #include "xaxidma.h"
 #include "xparameters.h"
 #include "xil_exception.h"
@@ -98,6 +99,51 @@
 #include "sleep.h"
 
 #include "xttcps.h"
+#include "signal_data.h"
+#include "string.h"
+/************************** LWiP includes ************************************/
+
+#include "netif/xadapter.h"
+#include "lwipopts.h"
+#include "sleep.h"
+#include "lwip/priv/tcp_priv.h"
+#include "lwip/init.h"
+#include "lwip/inet.h"
+#include "xil_cache.h"
+#include "platform_config.h"
+#if LWIP_DHCP==1
+#include "lwip/dhcp.h"
+extern volatile int dhcp_timoutcntr;
+#endif
+
+extern volatile int TcpFastTmrFlag;
+extern volatile int TcpSlowTmrFlag;
+
+#define DEFAULT_IP_ADDRESS	"192.168.1.10"
+#define DEFAULT_IP_MASK		"255.255.255.0"
+#define DEFAULT_GW_ADDRESS	"192.168.1.1"
+
+void platform_enable_interrupts(void);
+void start_application(void);
+void transfer_data(void);
+void print_app_header(void);
+
+#if defined (__arm__) && !defined (ARMR5)
+#if XPAR_GIGE_PCS_PMA_SGMII_CORE_PRESENT == 1 || \
+		 XPAR_GIGE_PCS_PMA_1000BASEX_CORE_PRESENT == 1
+int ProgramSi5324(void);
+int ProgramSfpPhy(void);
+#endif
+#endif
+
+#ifdef XPS_BOARD_ZCU102
+#ifdef XPAR_XIICPS_0_DEVICE_ID
+int IicPhyReset(void);
+#endif
+#endif
+
+struct netif server_netif;
+
 /************************** Constant Definitions *****************************/
 
 /*
@@ -159,7 +205,7 @@
 /*
  * Buffer and Buffer Descriptor related constant definition
  */
-#define MAX_PKT_LEN		0x800
+#define MAX_PKT_LEN		0x200
 
 #define NUMBER_OF_TRANSFERS	10
 
@@ -200,6 +246,11 @@ static void DisableIntrSystem(INTC * IntcInstancePtr,
 extern void platform_setup_timer(void);
 extern void platform_enable_interrupts();
 
+static void print_ip(char *msg, ip_addr_t *ip);
+static void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw);
+static void assign_default_ip(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw);
+extern const int signal_data[512][128];
+
 /************************** Variable Definitions *****************************/
 /*
  * Device instance definitions
@@ -217,6 +268,9 @@ volatile int TxDone;
 volatile int RxDone;
 volatile int Error;
 
+int j = 0;
+int k = 0;
+int xferD = 0;
 /*****************************************************************************/
 /**
 *
@@ -248,12 +302,36 @@ int main(void)
 	XAxiDma_Config *Config;
 	int Tries = NUMBER_OF_TRANSFERS;
 	int Index;
-	u8 *TxBufferPtr;
-	u8 *RxBufferPtr;
+	u32 *TxBufferPtr;
+	u32 *RxBufferPtr;
 	u8 Value;
 
-	TxBufferPtr = (u8 *)TX_BUFFER_BASE ;
-	RxBufferPtr = (u8 *)RX_BUFFER_BASE;
+	TxBufferPtr = (u32 *)TX_BUFFER_BASE ;
+	RxBufferPtr = (u32 *)RX_BUFFER_BASE;
+
+	// LWiP variables
+//	struct netif *netif;
+//
+//	/* the mac address of the board. this should be unique per board */
+//	unsigned char mac_ethernet_address[] = {
+//		0x00, 0x0a, 0x35, 0x00, 0x01, 0x02 };
+//
+//	netif = &server_netif;
+//#if defined (__arm__) && !defined (ARMR5)
+//#if XPAR_GIGE_PCS_PMA_SGMII_CORE_PRESENT == 1 || \
+//		XPAR_GIGE_PCS_PMA_1000BASEX_CORE_PRESENT == 1
+//	ProgramSi5324();
+//	ProgramSfpPhy();
+//#endif
+//#endif
+//
+//	/* Define this board specific macro in order perform PHY reset
+//	 * on ZCU102
+//	 */
+//#ifdef XPS_BOARD_ZCU102
+//	IicPhyReset();
+//#endif
+
 	/* Initial setup for Uart16550 */
 #ifdef XPAR_UARTNS550_0_BASEADDR
 
@@ -284,7 +362,7 @@ int main(void)
 	}
 
 	//	Setup timer
-	platform_setup_timer();
+	//platform_setup_timer();
 	/* Set up Interrupt system  */
 	Status = SetupIntrSystem(&Intc, &AxiDma, TX_INTR_ID, RX_INTR_ID);
 	if (Status != XST_SUCCESS) {
@@ -293,7 +371,21 @@ int main(void)
 		return XST_FAILURE;
 	}
 
-	platform_enable_interrupts(); //Start timer
+//	xil_printf("\r\n\r\n");
+//		xil_printf("-----lwIP RAW Mode UDP Client Application-----\r\n");
+//
+//		/* initialize lwIP */
+//		lwip_init();
+//
+//		/* Add network interface to the netif_list, and set it as default */
+//		if (!xemac_add(netif, NULL, NULL, NULL, mac_ethernet_address,
+//					PLATFORM_EMAC_BASEADDR)) {
+//			xil_printf("Error adding N/W interface\r\n");
+//			return -1;
+//		}
+//		netif_set_default(netif);
+//
+//	platform_enable_interrupts(); //Start timer
 
 	/* Disable all interrupts before setup */
 
@@ -302,6 +394,42 @@ int main(void)
 
 	XAxiDma_IntrDisable(&AxiDma, XAXIDMA_IRQ_ALL_MASK,
 				XAXIDMA_DEVICE_TO_DMA);
+
+//	/* specify that the network if is up */
+//	netif_set_up(netif);
+//
+//#if (LWIP_DHCP==1)
+//	/* Create a new DHCP client for this interface.
+//	 * Note: you must call dhcp_fine_tmr() and dhcp_coarse_tmr() at
+//	 * the predefined regular intervals after starting the client.
+//	 */
+//	dhcp_start(netif);
+//	dhcp_timoutcntr = 24;
+//	while (((netif->ip_addr.addr) == 0) && (dhcp_timoutcntr > 0))
+//		xemacif_input(netif);
+//
+//	if (dhcp_timoutcntr <= 0) {
+//		if ((netif->ip_addr.addr) == 0) {
+//			xil_printf("ERROR: DHCP request timed out\r\n");
+//			assign_default_ip(&(netif->ip_addr),
+//					&(netif->netmask), &(netif->gw));
+//		}
+//	}
+//
+//	/* print IP address, netmask and gateway */
+//#else
+//	assign_default_ip(&(netif->ip_addr), &(netif->netmask), &(netif->gw));
+//#endif
+//	print_ip_settings(&(netif->ip_addr), &(netif->netmask), &(netif->gw));
+//
+//	xil_printf("\r\n");
+//
+//	/* print app header */
+//	print_app_header();
+//
+//	/* start the application*/
+//	start_application();
+//	xil_printf("\r\n");
 
 	/* Enable all interrupts */
 	XAxiDma_IntrEnable(&AxiDma, XAXIDMA_IRQ_ALL_MASK,
@@ -316,13 +444,16 @@ int main(void)
 	RxDone = 0;
 	Error = 0;
 
-	Value = TEST_START_VALUE;
-
-	for(Index = 0; Index < MAX_PKT_LEN; Index ++) {
-			TxBufferPtr[Index] = Value;
-
-			Value = (Value + 1) & 0xFF;
-	}
+//	Value = TEST_START_VALUE;
+//
+//	for(Index = 0; Index < MAX_PKT_LEN; Index ++) {
+//			TxBufferPtr[Index] = Value;
+//
+//			Value = (Value + 1) & 0xFF;
+//	}
+	TxBufferPtr = (u32 * )malloc(512);
+	RxBufferPtr = (u32 * )malloc(512);
+	memcpy(TxBufferPtr,signal_data[0], 512);
 
 	/* Flush the SrcBuffer before the DMA transfer, in case the Data Cache
 	 * is enabled
@@ -338,7 +469,10 @@ int main(void)
 				return XST_FAILURE;
 			}
 	/* Send a packet */
+
 	while(1) {
+		//j ++;
+		for (int i = 0; i < 512;  i++ ){
 		/* Flush the SrcBuffer before the DMA transfer, in case the Data Cache
 		 * is enabled
 		 */
@@ -346,33 +480,52 @@ int main(void)
 	#ifdef __aarch64__
 		Xil_DCacheFlushRange((UINTPTR)RxBufferPtr, MAX_PKT_LEN);
 	#endif
-
-		Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) RxBufferPtr,
-					MAX_PKT_LEN, XAXIDMA_DEVICE_TO_DMA);
-
-		if (Status != XST_SUCCESS) {
-			return XST_FAILURE;
-		}
+		//usleep(1);
 
 		Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) TxBufferPtr,
 					MAX_PKT_LEN, XAXIDMA_DMA_TO_DEVICE);
 
 		if (Status != XST_SUCCESS) {
+			k = -1;
 			return XST_FAILURE;
 		}
+
+		Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) RxBufferPtr,
+					MAX_PKT_LEN, XAXIDMA_DEVICE_TO_DMA);
+
+		if (Status != XST_SUCCESS) {
+			j = -1;
+			return XST_FAILURE;
+
+		}
+
 
 		/*
 		 * Wait TX done and RX done
 		 */
-		while (!TxDone && !RxDone && !Error) {
-				/* NOP */
-			xil_printf("Waiting\r\n");
-		}
+//		while (!TxDone && !RxDone && !Error) {
+//				/* NOP */
+//			xil_printf("Waiting\r\n");
+//		}
+		while (!(RxDone && TxDone) && !Error){ /* The processor could be doing something else here while waiting for an IRQ. */ }
 		//xil_printf("Xfer done\r\n");
 		//usleep(1);
 		//xil_printf("XFR DONE\r\n");
+		xferD ++;
 		TxDone = 0;
 		RxDone = 0;
+		}
+
+//		if (TcpFastTmrFlag) {
+//				tcp_fasttmr();
+//				TcpFastTmrFlag = 0;
+//			}
+//			if (TcpSlowTmrFlag) {
+//				tcp_slowtmr();
+//				TcpSlowTmrFlag = 0;
+//			}
+//			xemacif_input(netif);
+//			transfer_data();
 	}
 		if (Error) {
 			xil_printf("Failed test transmit%s done, "
@@ -740,4 +893,37 @@ static void DisableIntrSystem(INTC * IntcInstancePtr,
 	XScuGic_Disconnect(IntcInstancePtr, TxIntrId);
 	XScuGic_Disconnect(IntcInstancePtr, RxIntrId);
 #endif
+}
+
+static void print_ip(char *msg, ip_addr_t *ip)
+{
+	print(msg);
+	xil_printf("%d.%d.%d.%d\r\n", ip4_addr1(ip), ip4_addr2(ip),
+			ip4_addr3(ip), ip4_addr4(ip));
+}
+
+static void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
+{
+	print_ip("Board IP:       ", ip);
+	print_ip("Netmask :       ", mask);
+	print_ip("Gateway :       ", gw);
+}
+
+static void assign_default_ip(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
+{
+	int err;
+
+	xil_printf("Configuring default IP %s \r\n", DEFAULT_IP_ADDRESS);
+
+	err = inet_aton(DEFAULT_IP_ADDRESS, ip);
+	if (!err)
+		xil_printf("Invalid default IP address: %d\r\n", err);
+
+	err = inet_aton(DEFAULT_IP_MASK, mask);
+	if (!err)
+		xil_printf("Invalid default IP MASK: %d\r\n", err);
+
+	err = inet_aton(DEFAULT_GW_ADDRESS, gw);
+	if (!err)
+		xil_printf("Invalid default gateway address: %d\r\n", err);
 }
