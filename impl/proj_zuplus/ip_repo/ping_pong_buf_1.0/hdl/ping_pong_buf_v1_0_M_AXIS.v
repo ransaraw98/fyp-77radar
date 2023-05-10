@@ -57,11 +57,11 @@
     //Reset
     always@(posedge M_AXIS_ACLK)        //shouldve been asynchronous reset actually
         if(!M_AXIS_ARESETN) begin
-            read_ptr    <=  {RAM_ADDRW{1'b0}};
+            read_ptr    <=  RAM_DEPTH/2;    //{RAM_ADDRW{1'b0}};
             read_count  <=  {RAM_ADDRW{1'b0}};
             //tvalidR     <=  0;
             tlastR      <=  0;
-            tx_done     <=  0;
+            tx_done     <=  1;
             //RAM_RADDR   <=  0;
             RAM_EN      <=  0;
             end

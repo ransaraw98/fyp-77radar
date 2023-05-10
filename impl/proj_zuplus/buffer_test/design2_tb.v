@@ -61,9 +61,14 @@ initial begin
     S_AXIS_tdata    =   32'habcdef01;
     S_AXIS_tvalid   =   1;
     M_AXIS_tready   =   1;
-    #180;
+    #350
+    M_AXIS_tready   =   0;
+    #50
     M_AXIS_tready   =   1;
-    tx_done = 1;
+    #100
+    S_AXIS_tvalid   =   0;
+    #50
+    S_AXIS_tvalid   =   1;
 end
 
 
