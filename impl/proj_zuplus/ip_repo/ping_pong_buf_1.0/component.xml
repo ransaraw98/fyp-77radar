@@ -1,0 +1,837 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>xilinx.com</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>ping_pong_buf</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>M_AXIS</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TSTRB</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tstrb</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>WIZ_DATA_WIDTH</spirit:name>
+          <spirit:value spirit:format="long" spirit:id="BUSIFPARAM_VALUE.M_AXIS.WIZ_DATA_WIDTH" spirit:choiceRef="choice_list_6fc15197">32</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>S_AXIS</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TSTRB</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tstrb</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>WIZ_DATA_WIDTH</spirit:name>
+          <spirit:value spirit:format="long" spirit:id="BUSIFPARAM_VALUE.S_AXIS.WIZ_DATA_WIDTH" spirit:choiceRef="choice_list_6fc15197">32</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>S_AXIS_RST</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_aresetn</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_RST.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>S_AXIS_CLK</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_aclk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_CLK.ASSOCIATED_BUSIF">S_AXIS</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_CLK.ASSOCIATED_RESET">s_axis_aresetn</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>M_AXIS_RST</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_aresetn</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_AXIS_RST.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>M_AXIS_CLK</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_aclk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_AXIS_CLK.ASSOCIATED_BUSIF">M_AXIS</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_AXIS_CLK.ASSOCIATED_RESET">m_axis_aresetn</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_verilogsynthesis</spirit:name>
+        <spirit:displayName>Verilog Synthesis</spirit:displayName>
+        <spirit:envIdentifier>verilogSource:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>verilog</spirit:language>
+        <spirit:modelName>ping_pong_buf_v1_0</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_verilogsynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>b6b80416</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_verilogbehavioralsimulation</spirit:name>
+        <spirit:displayName>Verilog Simulation</spirit:displayName>
+        <spirit:envIdentifier>verilogSource:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>verilog</spirit:language>
+        <spirit:modelName>ping_pong_buf_v1_0</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_verilogbehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>b6b80416</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>99e9573f</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>bd_tcl</spirit:name>
+        <spirit:displayName>Block Diagram</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:block.diagram</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>bd_tcl_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>16328387</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>ch1_tx_done</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXIS_TDATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tstrb</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXIS_TDATA_WIDTH&apos;)) / 8) - 1)">3</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_aclk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_aresetn</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_AXIS_TDATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tstrb</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_AXIS_TDATA_WIDTH&apos;)) / 8) - 1)">3</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_aclk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_aresetn</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_verilogsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_verilogbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
+        <spirit:name>C_S_AXIS_TDATA_WIDTH</spirit:name>
+        <spirit:displayName>C S AXIS TDATA WIDTH</spirit:displayName>
+        <spirit:description>AXI4Stream sink: Data Width</spirit:description>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXIS_TDATA_WIDTH" spirit:order="3" spirit:rangeType="long">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXIS_TDATA_WIDTH</spirit:name>
+        <spirit:displayName>C M AXIS TDATA WIDTH</spirit:displayName>
+        <spirit:description>Width of S_AXIS address bus. The slave accepts the read and write addresses of width C_M_AXIS_TDATA_WIDTH.</spirit:description>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXIS_TDATA_WIDTH" spirit:order="4" spirit:rangeType="long">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXIS_START_COUNT</spirit:name>
+        <spirit:displayName>C M AXIS START COUNT</spirit:displayName>
+        <spirit:description>Start count is the number of clock cycles the master will wait before initiating/issuing any transaction.</spirit:description>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXIS_START_COUNT" spirit:order="5" spirit:minimum="1" spirit:rangeType="long">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>RAM_ADDRW</spirit:name>
+        <spirit:displayName>Ram Addrw</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.RAM_ADDRW">4</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>RAM_DEPTH</spirit:name>
+        <spirit:displayName>Ram Depth</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.RAM_DEPTH">16</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:choices>
+    <spirit:choice>
+      <spirit:name>choice_list_6fc15197</spirit:name>
+      <spirit:enumeration>32</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
+      <spirit:name>choice_list_9d8b0d81</spirit:name>
+      <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
+      <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
+    </spirit:choice>
+  </spirit:choices>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_verilogsynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>hdl/dp_ram.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/ping_pong_buf_v1_0_M_AXIS.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/ping_pong_buf_v1_0_S_AXIS.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/ping_pong_buf_v1_0.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_713d5cfe</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_verilogbehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>hdl/dp_ram.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/ping_pong_buf_v1_0_M_AXIS.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/ping_pong_buf_v1_0_S_AXIS.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>hdl/ping_pong_buf_v1_0.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/ping_pong_buf_v1_0.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_99e9573f</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>bd_tcl_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>bd/bd.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>My new AXI IP</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>C_S_AXIS_TDATA_WIDTH</spirit:name>
+      <spirit:displayName>C S AXIS TDATA WIDTH</spirit:displayName>
+      <spirit:description>AXI4Stream sink: Data Width</spirit:description>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXIS_TDATA_WIDTH" spirit:choiceRef="choice_list_6fc15197" spirit:order="3">32</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_S_AXIS_TDATA_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_M_AXIS_TDATA_WIDTH</spirit:name>
+      <spirit:displayName>C M AXIS TDATA WIDTH</spirit:displayName>
+      <spirit:description>Width of S_AXIS address bus. The slave accepts the read and write addresses of width C_M_AXIS_TDATA_WIDTH.</spirit:description>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXIS_TDATA_WIDTH" spirit:choiceRef="choice_list_6fc15197" spirit:order="4">32</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.C_M_AXIS_TDATA_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_M_AXIS_START_COUNT</spirit:name>
+      <spirit:displayName>C M AXIS START COUNT</spirit:displayName>
+      <spirit:description>Start count is the number of clock cycles the master will wait before initiating/issuing any transaction.</spirit:description>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXIS_START_COUNT" spirit:order="5" spirit:minimum="1" spirit:rangeType="long">32</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">ping_pong_buf_v1_0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>RAM_ADDRW</spirit:name>
+      <spirit:displayName>RAM ADDR WIDTH</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.RAM_ADDRW">4</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>RAM_DEPTH</spirit:name>
+      <spirit:displayName>RAM DEPTH, choose 2x the sequence length</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.RAM_DEPTH">16</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">zynquplus</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>AXI_Peripheral</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>ping_pong_buf_v1.0</xilinx:displayName>
+      <xilinx:coreRevision>13</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2023-05-09T21:55:28Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@25837e81_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7aabafd9_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@45d02e11_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1298c655_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41695743_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34251b96_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c404284_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67ff8042_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a9797ab_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5576ac4e_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@213704c0_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@625e12bc_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4193f450_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4fae7a8c_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a6cac7e_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5538e341_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51353c7e_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5d95552a_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@23c04ba9_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@16218f07_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@732cfddb_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14943808_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bd92acf_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@13c1d504_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3802acf6_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@134bc694_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48c1e00c_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f39fdad_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@79637e51_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@180c5f7f_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@87233c2_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d0724b3_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c1c464f_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1cc92165_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@78d1a667_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c7752a9_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d4d4cac_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4fbc3892_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@492c433_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1af0a7e_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14788_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b0b502_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36d1129c_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65e1f812_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1706dc3_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2648531e_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@83b6e1a_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b4006e_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2dd6d06f_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@75bd0767_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5572b5ed_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b12eeaa_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a695ac_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1d929938_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@49005fa1_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ddcaaf4_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14a44345_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@79162041_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4f601e49_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6c340dc_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74c8ede5_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15c45c71_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4348efe3_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b516354_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18679c77_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7de0ad63_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34653a2a_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19e45380_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64ddd699_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@ba59aaf_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65e38698_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4d5b6c3c_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40782ed1_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5487edd2_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a530692_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@244964d_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b250dc3_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@743edcf3_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36d390b2_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4db7fb35_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f3cc190_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a93e81d_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3dd03d8c_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b6e7a29_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59fb555f_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1470e09_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f18bb95_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d76a2fc_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14a5e03e_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@63d48954_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e7a0908_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e33ad11_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6704f771_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@702ab394_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6af837b2_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@307c2062_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b6a5af0_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@32cb7560_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f150457_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@356d36cf_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@89d3ff8_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@183823dc_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@160bac29_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@616329cc_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@28532c1_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@546d198_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a9c784e_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7783e4ed_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2920b2fa_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e8d3022_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c787b74_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@125cdb1f_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b12c3ad_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b8e41ad_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@418b5ba1_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3fa497b_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@444afce6_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41e03a01_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d534650_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65f1f1fc_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@717c5b35_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@77d9a1f6_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@58c5b340_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74da3af1_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@103ca966_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@79ad0c5c_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7cad6a65_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@c087ed0_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12281c01_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@78a4d50c_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3588a981_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@70877ab_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@46eba2c5_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5029093f_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4be42f33_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4ce15668_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@272d7386_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1ffdebd9_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@786bd767_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2597716f_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76ca2479_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@451abdd6_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1bec4083_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@285d02c1_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ce2df6d_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1041ce0f_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4ef89f93_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b7dbabf_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a905fb8_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67c24841_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17e1346_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c6b7d11_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@56291a2_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@ac5ada8_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@507fbb07_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f3131a7_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59f42199_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17478a30_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@c94e2cd_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71198864_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f4099da_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e91566a_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d2e7071_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@56c8b5be_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@cd50892_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27d52faa_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20f9964f_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ec01be1_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4c2223c5_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d615f4_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@410d4bea_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c95903f_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ba23625_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@32b31239_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@50726386_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d9f6385_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19dc8fc3_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2019.1</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="5f37f196"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="17aa6755"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="c0260f9b"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="58c99d0c"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="eb85e788"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>
