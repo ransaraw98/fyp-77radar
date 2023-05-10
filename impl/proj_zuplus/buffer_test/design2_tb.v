@@ -57,10 +57,12 @@ initial begin
 //	#200	M_AXIS_tready	=	1;
     resetn 		= 	0;
 	#100 resetn	=	1;
-    tx_done = 0;
+    //tx_done = 0;
     S_AXIS_tdata    =   32'habcdef01;
     S_AXIS_tvalid   =   1;
-    #6000;
+    M_AXIS_tready   =   1;
+    #180;
+    M_AXIS_tready   =   1;
     tx_done = 1;
 end
 
@@ -81,8 +83,8 @@ design_2_wrapper dut
     .m_axis_aclk(clk),
     .m_axis_aresetn(resetn),
     .s_axis_aclk(clk),
-    .s_axis_aresetn(resetn),
-    .ch1_tx_done(tx_done)
+    .s_axis_aresetn(resetn)
+    //.ch1_tx_done(tx_done)
     );
     
     

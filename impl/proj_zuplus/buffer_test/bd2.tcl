@@ -205,7 +205,6 @@ proc create_root_design { parentCell } {
 
 
   # Create ports
-  set ch1_tx_done [ create_bd_port -dir I ch1_tx_done ]
   set m_axis_aclk [ create_bd_port -dir I -type clk m_axis_aclk ]
   set_property -dict [ list \
    CONFIG.FREQ_HZ {100000000} \
@@ -220,8 +219,8 @@ proc create_root_design { parentCell } {
   # Create instance: ping_pong_buf_0, and set properties
   set ping_pong_buf_0 [ create_bd_cell -type ip -vlnv xilinx.com:user:ping_pong_buf:1.0 ping_pong_buf_0 ]
   set_property -dict [ list \
-   CONFIG.RAM_ADDRW {9} \
-   CONFIG.RAM_DEPTH {512} \
+   CONFIG.RAM_ADDRW {4} \
+   CONFIG.RAM_DEPTH {16} \
  ] $ping_pong_buf_0
 
   # Create interface connections
@@ -229,7 +228,6 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net ping_pong_buf_0_M_AXIS [get_bd_intf_ports M_AXIS] [get_bd_intf_pins ping_pong_buf_0/M_AXIS]
 
   # Create port connections
-  connect_bd_net -net ch1_tx_done_1 [get_bd_ports ch1_tx_done] [get_bd_pins ping_pong_buf_0/ch1_tx_done]
   connect_bd_net -net m_axis_aclk_1 [get_bd_ports m_axis_aclk] [get_bd_pins ping_pong_buf_0/m_axis_aclk]
   connect_bd_net -net m_axis_aresetn_1 [get_bd_ports m_axis_aresetn] [get_bd_pins ping_pong_buf_0/m_axis_aresetn]
   connect_bd_net -net s_axis_aclk_1 [get_bd_ports s_axis_aclk] [get_bd_pins ping_pong_buf_0/s_axis_aclk]
@@ -241,7 +239,6 @@ proc create_root_design { parentCell } {
   # Restore current instance
   current_bd_instance $oldCurInst
 
-  validate_bd_design
   save_bd_design
 }
 # End of create_root_design()
@@ -253,4 +250,6 @@ proc create_root_design { parentCell } {
 
 create_root_design ""
 
+
+common::send_msg_id "BD_TCL-1000" "WARNING" "This Tcl script was generated from a block design that has not been validated. It is possible that design <$design_name> may result in errors during validation."
 

@@ -21,7 +21,8 @@
 	)
 	(
 		// Users to add ports here
-		input wire ch1_tx_done,
+		//input wire ch1_tx_done,
+		output wire ch1_tx_done_temp,
 		// User ports ends
 		// Do not modify the ports beyond this line
 
@@ -49,7 +50,8 @@
         wire ch1_wen;
         wire ch1_ren;
         wire ch1_tx_en;
-        //wire ch1_tx_done;
+        wire ch1_tx_done;
+        wire ch1_rx_done;
         wire [RAM_ADDRW-1:0]   ch1_ram_waddr;
         wire [RAM_ADDRW-1:0]   ch1_ram_raddr;
         wire [C_S_AXIS_TDATA_WIDTH-1 : 0]  ch1_ram_din;
@@ -58,7 +60,9 @@
 // Instantiation of Axi Bus Interface M_AXIS
 	ping_pong_buf_v1_0_M_AXIS # ( 
 		.C_M_AXIS_TDATA_WIDTH(C_M_AXIS_TDATA_WIDTH),
-		.C_M_START_COUNT(C_M_AXIS_START_COUNT)
+		.C_M_START_COUNT(C_M_AXIS_START_COUNT),
+		.RAM_ADDRW(RAM_ADDRW),
+		.RAM_DEPTH(RAM_DEPTH)
 	) ping_pong_buf_v1_0_M_AXIS_inst (
 		.M_AXIS_ACLK(m_axis_aclk),
 		.M_AXIS_ARESETN(m_axis_aresetn),
@@ -66,7 +70,14 @@
 		.M_AXIS_TDATA(m_axis_tdata),
 		.M_AXIS_TSTRB(m_axis_tstrb),
 		.M_AXIS_TLAST(m_axis_tlast),
-		.M_AXIS_TREADY(m_axis_tready)
+		.M_AXIS_TREADY(m_axis_tready),
+		.RAM_EN(ch1_ren),
+		.RAM_RADDR(ch1_ram_raddr),
+		.tx_done(ch1_tx_done),
+		.rx_done(ch1_rx_done),
+		.ch1_ram_dout(ch1_ram_dout),           //Data from the ram
+		.tx_en(ch1_tx_en)
+		
 	);
 
 // Instantiation of Axi Bus Interface S_AXIS
@@ -86,7 +97,8 @@
 		.RAM_WADDR(ch1_ram_waddr),
 		.ch1_ram_din(ch1_ram_din),
 		.tx_en(ch1_tx_en),
-		.tx_done(ch1_tx_done)
+		.tx_done(ch1_tx_done),
+		.rx_done(ch1_rx_done)
 	);
 
 	// Add user logic here

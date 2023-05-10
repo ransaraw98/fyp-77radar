@@ -42,10 +42,11 @@
 		output     reg  [C_S_AXIS_TDATA_WIDTH-1:0] ch1_ram_din,
 	    //interface for the MAXIS
 	    output     reg  tx_en,
-	    input      wire tx_done
+	    input      wire tx_done,
+	    output     reg rx_done
 	);
 	
-	reg    rx_done;
+	//reg    rx_done;
 	reg    [RAM_ADDRW-1:0] write_ptr;
 	reg    [RAM_ADDRW-1:0] write_count;
 	// RESET
@@ -54,6 +55,7 @@
 	       write_ptr   <=  {RAM_ADDRW{1'b0}};   //WRITE STARTS AT 0, MAXIS WAITS FOR THE FIRST FILL TO BE DONE
 	       rx_done     <=  0;
 	       write_count <=  0;
+	       tx_en       <=  0;
 	       end
 	
 	// PING PONG CIRCUIT
@@ -75,8 +77,12 @@
                 RAM_WEN     <=  1;
                 RAM_WADDR   <=  write_ptr + write_count;
                 ch1_ram_din <=  S_AXIS_TDATA;
-                if(write_count == (RAM_DEPTH/2)-1)
-                    rx_done <=  1;
+                if(write_count == (RAM_DEPTH/2)-1)begin
+                    if(tx_en==0)
+                        rx_done <=  0;
+                    else
+                        rx_done <=  1;
+                end
                 else    
                     begin
                     rx_done <=  0;
@@ -92,8 +98,8 @@
  
     // tx_enable logic
     always@(posedge S_AXIS_ACLK)
-        if((write_count  <   (RAM_DEPTH/2)-1)   &&  (tx_en == 0))
+        if((write_count  ==   (RAM_DEPTH/2)-1)   &&  (tx_en == 0))
             tx_en   <=  1;
-        else                        //once set will never trigger
-            tx_en   <=  0;
+//        else                        //once set will never trigger
+//            tx_en   <=  0;
 	endmodule
