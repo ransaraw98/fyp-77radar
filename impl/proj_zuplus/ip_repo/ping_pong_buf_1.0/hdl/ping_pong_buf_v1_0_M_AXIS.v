@@ -51,7 +51,7 @@
     
     //assign M_AXIS_TVALID    =   tvalidR;
     assign M_AXIS_TLAST     =   tlastR;
-    assign M_AXIS_TDATA     =   tdataR;
+    assign M_AXIS_TDATA     =   ch1_ram_dout;
     assign M_AXIS_TSTRB	=	{(C_M_AXIS_TDATA_WIDTH/8){1'b1}};
     
     //Reset
@@ -80,7 +80,7 @@
             RAM_RADDR   <=  read_ptr    +   read_count;
             RAM_EN      <=  1;
             tdataR      <=  ch1_ram_dout;       //dout wrt to RAM, input to the master interface
-            if(read_count   ==  (RAM_DEPTH/2)-1)
+            if(read_count   ==  (RAM_DEPTH/2))
                 tx_done <=  1;
             else
                 begin
@@ -105,7 +105,7 @@
         
     //TLAST circuit
     always@(posedge M_AXIS_ACLK)
-        if(read_count   ==  (RAM_DEPTH/2)-2)
+        if(read_count   ==  (RAM_DEPTH/2))
             tlastR  <=  1;
         else
             tlastR  <=  0;

@@ -127,7 +127,7 @@ if { $bCheckIPs == 1 } {
 xilinx.com:ip:axi_dma:7.1\
 xilinx.com:ip:axi_perf_mon:5.0\
 xilinx.com:ip:smartconnect:1.0\
-user.org:user:buffer1:1.0\
+user.org:user:axis_sgen:1.0\
 xilinx.com:ip:ila:6.2\
 xilinx.com:ip:proc_sys_reset:5.0\
 xilinx.com:ip:xlconcat:2.1\
@@ -230,7 +230,7 @@ proc create_root_design { parentCell } {
  ] $axi_smc
 
   # Create instance: buffer1_0, and set properties
-  set buffer1_0 [ create_bd_cell -type ip -vlnv user.org:user:buffer1:1.0 buffer1_0 ]
+  set buffer1_0 [ create_bd_cell -type ip -vlnv user.org:user:axis_sgen:1.0 buffer1_0 ]
 
   # Create instance: ila_0, and set properties
   set ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.2 ila_0 ]

@@ -50,21 +50,21 @@
 	reg    [RAM_ADDRW-1:0] write_ptr;
 	reg    [RAM_ADDRW-1:0] write_count;
 	// RESET
-	always@(posedge    S_AXIS_ACLK)
-	   if(!S_AXIS_ARESETN) begin
-	       write_ptr   <=  {RAM_ADDRW{1'b0}};   //WRITE STARTS AT 0, MAXIS WAITS FOR THE FIRST FILL TO BE DONE
-	       rx_done     <=  0;
-	       write_count <=  0;
-	       tx_en       <=  0;
-	       end
+//	always@(posedge    S_AXIS_ACLK)
+//	   if(!S_AXIS_ARESETN) begin
+//	       write_ptr   <=  {RAM_ADDRW{1'b0}};   //WRITE STARTS AT 0, MAXIS WAITS FOR THE FIRST FILL TO BE DONE
+//	       rx_done     <=  0;
+//	       write_count <=  0;
+//	       tx_en       <=  0;
+//	       end
 	
-	// PING PONG CIRCUIT
-	always@(posedge    S_AXIS_ACLK)
-        if(rx_done  &&  tx_done)begin
-            write_ptr   <=  write_ptr + RAM_DEPTH/2;
-            write_count <=  0;
-            rx_done     <=  0;
-            end
+//	// PING PONG CIRCUIT
+//	always@(posedge    S_AXIS_ACLK)
+//        if(rx_done  &&  tx_done)begin
+//            write_ptr   <=  write_ptr + RAM_DEPTH/2;
+//            write_count <=  0;
+//            rx_done     <=  0;
+//            end
 //        else                                  //LATCH INFERENCE?
 //            write_ptr   <=  write_ptr;
             
@@ -73,22 +73,35 @@
     
     //Data write circuit
     always@(posedge    S_AXIS_ACLK)
-        if(S_AXIS_TREADY    && S_AXIS_TVALID) begin
-                RAM_WEN     <=  1;
-                RAM_WADDR   <=  write_ptr + write_count;
-                ch1_ram_din <=  S_AXIS_TDATA;
-                if(write_count == (RAM_DEPTH/2)-1)begin
-                    if(tx_en==0)
-                        rx_done <=  0;
-                    else
-                        rx_done <=  1;
+	   if(!S_AXIS_ARESETN) begin
+	       write_ptr   <=  {RAM_ADDRW{1'b0}};   //WRITE STARTS AT 0, MAXIS WAITS FOR THE FIRST FILL TO BE DONE
+	       rx_done     <=  0;
+	       write_count <=  0;
+	       tx_en       <=  0;
+	       end
+	// PING PONG CIRCUIT
+        else if(rx_done  &&  tx_done)begin
+            write_ptr   <=  write_ptr + RAM_DEPTH/2;
+            write_count <=  0;
+            rx_done     <=  0;
+            end
+        else if(S_AXIS_TREADY    && S_AXIS_TVALID) begin
+            write_count <=   write_count + 1;                  
+            RAM_WEN     <=  1;
+            RAM_WADDR   <=  write_ptr + write_count;
+            ch1_ram_din <=  S_AXIS_TDATA;
+            if(write_count == (RAM_DEPTH/2)-1)begin
+//                if(tx_en==0)
+//                    rx_done <=  0;
+//                else
+                    rx_done <=  1;
+            end
+            else    
+                begin
+                rx_done <=  0;
+//                    write_count <=   write_count + 1;  
                 end
-                else    
-                    begin
-                    rx_done <=  0;
-                    write_count <=   write_count + 1;  
-                    end
-                end
+            end
          else   
             begin
                 RAM_WEN <=  0;
