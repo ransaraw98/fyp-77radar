@@ -21,7 +21,7 @@
         input rx_done,
         input tx_en,
         output reg tx_done,
-        output reg RAM_EN,
+        output wire RAM_EN,
         output reg [RAM_ADDRW-1:0] RAM_RADDR,   
 		// User ports ends
 		// Do not modify the ports beyond this line
@@ -45,9 +45,10 @@
 	// Add user logic here
     reg [RAM_ADDRW-1:0]read_ptr;
     reg [RAM_ADDRW-1:0]read_count;
-    //reg tvalidR;
+    reg tvalidR;
     reg tlastR;
     reg [C_M_AXIS_TDATA_WIDTH-1:0] tdataR;
+    reg [RAM_ADDRW-1:0] read_count_init;
     
     //assign M_AXIS_TVALID    =   tvalidR;
     assign M_AXIS_TLAST     =   tlastR;
@@ -59,53 +60,63 @@
         if(!M_AXIS_ARESETN) begin
             read_ptr    <=  RAM_DEPTH/2;    //{RAM_ADDRW{1'b0}};
             read_count  <=  {RAM_ADDRW{1'b0}};
+            read_count_init <=  {RAM_ADDRW{1'b0}};
             //tvalidR     <=  0;
             tlastR      <=  0;
             tx_done     <=  1;
             //RAM_RADDR   <=  0;
-            RAM_EN      <=  0;
+            //RAM_EN      <=  0;
             end
     
     //Ping pong circuit
     always@(posedge M_AXIS_ACLK)
         if(rx_done  &&  tx_done)begin
             read_ptr    <=  read_ptr   +    RAM_DEPTH/2 ;
-            read_count  <=  0;
+            read_count  <=  read_count_init;//{RAM_ADDRW{1'b0}};
             tx_done     <=  0;
+            read_count_init <=  1;
             end
             
     //DATA read circuit
     always@(posedge M_AXIS_ACLK)
-        if(M_AXIS_TVALID    &&  M_AXIS_TREADY)begin
+        if(!tx_done    &&  M_AXIS_TREADY)begin
             RAM_RADDR   <=  read_ptr    +   read_count;
-            RAM_EN      <=  1;
+            //RAM_EN      <=  1;
             tdataR      <=  ch1_ram_dout;       //dout wrt to RAM, input to the master interface
-            if(read_count   ==  (RAM_DEPTH/2))
+            read_count  <=  read_count  +   1;
+            if(read_count   ==  (RAM_DEPTH/2))begin
                 tx_done <=  1;
+                //RAM_EN  <=  0;
+                end
             else
                 begin
                 tx_done <=  0;
-                read_count  <=  read_count  +   1;
+                //read_count  <=  read_count  +   1;
                 end
             end
         else    
             begin
-                RAM_EN      <=  0;
+                //RAM_EN      <=  0;
                 RAM_RADDR   <=  RAM_RADDR;  //latch inference?
-                tdataR      <=  tdataR;           
+                //tdataR      <=  tdataR;           
             end
-            
+    
+    assign RAM_EN   =   !tx_done;        
+    
     // TVALID circuit
-//    always@(posedge M_AXIS_ACLK)
-//        if(tx_en    &&  !tx_done)
-//            tvalidR <=  1;
-//        else
-//            tvalidR <=  0;
+    reg [1:0] delay_tvalid;
+     
+    always@(posedge M_AXIS_ACLK)
+        if(tx_en    &&  !tx_done)
+            tvalidR <=  1;
+        else
+            tvalidR <=  0;
+            
     assign M_AXIS_TVALID    =   (tx_en  && !tx_done)?1:0;    
-        
+    //assign M_AXIS_TVALID  =   RAM_EN;  
     //TLAST circuit
     always@(posedge M_AXIS_ACLK)
-        if(read_count   ==  (RAM_DEPTH/2))
+        if(read_count   ==  (RAM_DEPTH/2 -1))
             tlastR  <=  1;
         else
             tlastR  <=  0;
