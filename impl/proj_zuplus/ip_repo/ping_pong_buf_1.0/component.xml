@@ -224,7 +224,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>c8f299cd</spirit:value>
+            <spirit:value>4bb443ab</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -240,7 +240,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>c8f299cd</spirit:value>
+            <spirit:value>4bb443ab</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -635,8 +635,8 @@
         <xilinx:taxonomy>AXI_Peripheral</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>ping_pong_buf_v1.0</xilinx:displayName>
-      <xilinx:coreRevision>52</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2023-05-11T11:20:05Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>53</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2023-05-11T11:49:01Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@25837e81_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@7aabafd9_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/buffer_test/ip_repo/ping_pong_buf_1.0</xilinx:tag>
@@ -1256,12 +1256,23 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@10dce1c8_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@7402b31b_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@64ec0e26_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71a45cd2_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@22cd15c4_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@63b8cad7_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@77e011d7_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@613fb2df_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5985c7a_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@666b1374_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@431aa197_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2155bcc1_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5172dca8_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64505d92_ARCHIVE_LOCATION">c:/Users/menuw/Documents/Modules/FYP/fyp-77radar/impl/proj_zuplus/ip_repo/ping_pong_buf_1.0</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="5f37f196"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="bfb943d8"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="66f18219"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="8361e746"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="58c99d0c"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="cb4bb0ba"/>
