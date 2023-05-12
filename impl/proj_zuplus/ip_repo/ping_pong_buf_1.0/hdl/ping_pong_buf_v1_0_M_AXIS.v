@@ -58,7 +58,7 @@
     //Reset
     always@(posedge M_AXIS_ACLK)        //shouldve been asynchronous reset actually
         if(!M_AXIS_ARESETN) begin
-            read_ptr    <=  RAM_DEPTH/2;    //{RAM_ADDRW{1'b0}};
+            read_ptr    <=  (RAM_DEPTH>>1);    //{RAM_ADDRW{1'b0}};
             read_count  <=  {RAM_ADDRW{1'b0}};
             read_count_init <=  {RAM_ADDRW{1'b0}};
             //tvalidR     <=  0;
@@ -68,18 +68,18 @@
             //RAM_EN      <=  0;
             end
     //Ping pong circuit
-    else    if(rx_done  &&  tx_done)begin
-            read_ptr    <=  read_ptr   +    RAM_DEPTH/2 ;
+    else if(rx_done  &&  tx_done)begin
+            read_ptr    <=  read_ptr   +    (RAM_DEPTH >> 1) ;
             read_count  <=  read_count_init;//{RAM_ADDRW{1'b0}};
             tx_done     <=  0;
             read_count_init <=  1;
             end
             
     //DATA read circuit
-     else   if(!tx_done    &&  M_AXIS_TREADY)begin
+     else if(M_AXIS_TVALID    &&  M_AXIS_TREADY)begin
             RAM_RADDR   <=  read_ptr    +   read_count;
             //RAM_EN      <=  1;
-            tdataR      <=  ch1_ram_dout;       //dout wrt to RAM, input to the master interface
+            //tdataR      <=  ch1_ram_dout;       //dout wrt to RAM, input to the master interface
             read_count  <=  read_count  +   1;
             if(read_count   ==  (RAM_DEPTH/2))begin
                 tx_done <=  1;
@@ -94,7 +94,7 @@
       else    
             begin
                 //RAM_EN      <=  0;
-                RAM_RADDR   <=  RAM_RADDR;  //latch inference?
+                RAM_RADDR   <=  0;//RAM_RADDR;  //latch inference?
                 //tdataR      <=  tdataR;           
             end
     

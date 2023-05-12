@@ -57,11 +57,11 @@ input enb,
 input wea,
 input [ADDRW-1:0] addra,addrb,
 input [DATA_WIDTH-1:0] dia,
-output [DATA_WIDTH-1:0] dob
+output reg [DATA_WIDTH-1:0] dob
 );
 
 reg [DATA_WIDTH-1:0] ram [DEPTH-1:0];
-reg [DATA_WIDTH-1:0] doa,dob;
+//reg [DATA_WIDTH-1:0] doa,dob;
 
 always @(posedge clk) begin
     if (ena) begin
@@ -70,9 +70,12 @@ always @(posedge clk) begin
     end
 end
 
-always @(*) begin
+always @(posedge clk) begin
     if (enb)
         dob <= ram[addrb];
+    else
+        dob <= 0;
     end
+        
 endmodule
 

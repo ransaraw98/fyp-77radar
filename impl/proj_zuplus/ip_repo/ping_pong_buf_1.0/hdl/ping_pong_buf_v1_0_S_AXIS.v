@@ -77,7 +77,7 @@
 	       write_ptr   <=  {RAM_ADDRW{1'b0}};   //WRITE STARTS AT 0, MAXIS WAITS FOR THE FIRST FILL TO BE DONE
 	       rx_done     <=  0;
 	       write_count <=  0;
-	       tx_en       <=  0;
+	       //tx_en       <=  0;
 	       end
 	// PING PONG CIRCUIT
         else if(rx_done  &&  tx_done)begin
@@ -111,7 +111,9 @@
  
     // tx_enable logic
     always@(posedge S_AXIS_ACLK)
-        if((write_count  ==   (RAM_DEPTH/2)-1)   &&  (tx_en == 0))
+        if(!S_AXIS_ARESETN) 
+            tx_en   <=0;
+        else if((write_count  ==   (RAM_DEPTH/2)-1)   &&  (tx_en == 0))
             tx_en   <=  1;
 //        else                        //once set will never trigger
 //            tx_en   <=  0;
