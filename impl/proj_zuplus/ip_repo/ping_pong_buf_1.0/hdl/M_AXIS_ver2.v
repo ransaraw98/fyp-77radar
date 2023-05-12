@@ -77,8 +77,8 @@ reg [RAM_ADDRW-1:0] readCount;
 //assign  RAM_RADDR       =   readPtr + readCount;
 assign  M_AXIS_TDATA    =   ch1_ram_dout;
 assign  M_AXIS_TVALID   =   tvalidR;
-assign  M_AXIS_TLAST    =   (readCount  ==  (RAM_DEPTH/2-1)) ? 1:0;
-
+assign  M_AXIS_TLAST    =   (readCount  ==  (RAM_DEPTH/2-1)) ? 1'b1:1'b0;
+assign  M_AXIS_TSTRB    =   {(C_M_AXIS_TDATA_WIDTH/8){1'b1}};
 always @ (readPtr, readCount)
 begin
     RAM_RADDR = readPtr + readCount;
