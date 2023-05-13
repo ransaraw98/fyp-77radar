@@ -70,11 +70,11 @@ always @(posedge clk) begin
     end
 end
 
-always @(posedge clk) begin
+always @(*) begin
     if (enb)
-        dob <= ram[addrb];
+        dob = ram[addrb];
     else
-        dob <= 0;
+        dob = 0;
     end
         
 endmodule
