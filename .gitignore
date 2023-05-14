@@ -5,3 +5,13 @@
 /impl/tcl/NA/
 /impl/matlab/signal.mat
 /impl/matlab/signal_data.h
+/impl/proj_zuplus/sgen_system/
+/impl/proj_zuplus/HPC_test/
+/impl/proj_zuplus/dma_fft/
+/impl/proj_zuplus/dma_fft_vitis/
+/impl/proj_zuplus/hls/
+/impl/proj_zuplus/buffer_test/buffer_test/
+/impl/proj_zuplus/buffer_test/ip_repo/
+
+
+
