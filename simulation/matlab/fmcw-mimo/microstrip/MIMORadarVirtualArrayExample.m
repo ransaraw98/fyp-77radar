@@ -175,14 +175,14 @@ rxcollectorCos = phased.Collector('Sensor',rxarrayCos,'OperatingFrequency',fc,..
 radar_speed = 100*1000/3600;     % Ego vehicle speed 100 km/h
 radarmotion = phased.Platform('InitialPosition',[0;0;0.5],'Velocity',[radar_speed;0;0]);
 
-car_dist = [40 50];              % Distance between sensor and cars (meters)
-car_speed = [-80 96]*1000/3600;  % km/h -> m/s
-car_az = [-10 10];
-car_rcs = [20 40];
-car_pos = [car_dist.*cosd(car_az);car_dist.*sind(car_az);0.5 0.5];
+car_dist = [40 50 100];              % Distance between sensor and cars (meters)
+car_speed = [-80 96 50]*1000/3600;  % km/h -> m/s
+car_az = [-10 10 30];
+car_rcs = [20 40 10];
+car_pos = [car_dist.*cosd(car_az);car_dist.*sind(car_az);0.5 0.5 0.5];
 
 cars = phased.RadarTarget('MeanRCS',car_rcs,'PropagationSpeed',c,'OperatingFrequency',fc);
-carmotion = phased.Platform('InitialPosition',car_pos,'Velocity',[car_speed;0 0;0 0]);
+carmotion = phased.Platform('InitialPosition',car_pos,'Velocity',[car_speed;0 0 0;0 0 0]);
 
 %%
 % The propagation model is assumed to be free space.
