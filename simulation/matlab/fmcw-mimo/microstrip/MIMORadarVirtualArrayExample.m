@@ -200,6 +200,21 @@ Dn = 2;      % Decimation factor
 xrIso = complex(zeros(round(fs*waveform.SweepTime),Nr,Nsweep));
 xrCos = complex(zeros(round(fs*waveform.SweepTime),Nr,Nsweep));
 
+%
+% 
+% 
+% Create a fix16_15 format object
+fixFormat = fimath('RoundingMethod', 'Floor', 'OverflowAction', 'Wrap');
+fixPointObj = fi([], true, 16, 15, fixFormat);
+
+arraySize = [round(fs*waveform.SweepTime),Nr,Nsweep];
+% Convert xrIso array to fix16_15 format
+%xrIso = complex(fi(zeros(arraySize), true,16,15,fixFormat), fi(zeros(arraySize), true,16,15,fixFormat));
+
+
+% 
+% 
+ xrIso = single(xrIso);
 w0 = [0;1];  % weights to enable/disable radiating elements
 
 for m = 1:Nsweep
@@ -263,7 +278,9 @@ xr2Cos = xrCos(:,:,2:2:end);
 % corresponding to the second transmit antenna element. Hence, the data
 % cube from the virtual array can be formed as:
 
-xrvIso = cat(2,xr1Iso,xr2Iso);
+%xrvIso = cat(2,xr1Iso,xr2Iso);
+xrvIso = horzcat(xr1Iso,xr2Iso);
+
 xrvCos = cat(2,xr1Cos,xr2Cos);
 %%
 % Next, perform range-Doppler processing on the virtual data cube. Because
