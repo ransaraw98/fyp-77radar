@@ -83,7 +83,7 @@ wire [RAM_ADDRW-1:0] readCountWire;
 assign readCountWire = readCount; 
 reg [RAM_ADDRW-1:0]readAddrBuf;
 always@(*)begin
-    readAddrBuf = (readCountWire * (6'd8));
+    readAddrBuf = (readCountWire * SAMPLE_COUNT);
 end 
 
 always @ (readPtr, readAddrBuf, colCount)
