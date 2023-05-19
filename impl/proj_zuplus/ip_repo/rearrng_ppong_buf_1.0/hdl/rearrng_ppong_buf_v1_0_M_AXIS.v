@@ -27,6 +27,11 @@ module rearrng_ppong_buf_v1_0_M_AXIS #
         output reg tx_done,
         output reg RAM_EN,
         output reg [RAM_ADDRW-1:0] RAM_RADDR,   
+        output reg [2:0] NextState,
+        output reg [RAM_ADDRW-1:0] readPtr,
+        output reg [RAM_ADDRW-1:0] readCount, 
+        output reg [RAM_ADDRW-1:0] readAddrCnt,  
+        output reg [RAM_ADDRW-1:0] colCount,
 		// User ports ends
 		// Do not modify the ports beyond this line
 
@@ -55,23 +60,35 @@ localparam  STATE_Initial = 3'd0,
             
 
 reg [2:0] CurrentState;
-reg [2:0] NextState;
+//reg [2:0] NextState;
 
 reg tvalidR;
-reg [RAM_ADDRW-1:0] readPtr;
-reg [RAM_ADDRW-1:0] readCount; 
-reg [RAM_ADDRW-1:0] readAddrCnt;  
-reg [RAM_ADDRW-1:0] colCount;
+//reg [RAM_ADDRW-1:0] readPtr;
+////reg [RAM_ADDRW-1:0] readCount; 
+//reg [RAM_ADDRW-1:0] readAddrCnt;  
+//reg [RAM_ADDRW-1:0] colCount;
 
 reg [RAM_ADDRW-1:0] test;
 //assign  RAM_RADDR       =   readPtr + readCount;
 assign  M_AXIS_TDATA    =   ch1_ram_dout;
 assign  M_AXIS_TVALID   =   tvalidR;
-assign  M_AXIS_TLAST    =   (CurrentState  ==  STATE_colIncr) ? 1'b1:1'b0;
+//assign  M_AXIS_TLAST    =   (CurrentState  ==  STATE_colIncr) ? 1'b1:1'b0;
+assign  M_AXIS_TLAST    =   (readCount    ==  (FRAME_SIZE-1)) ? 1'b1:1'b0;
 assign  M_AXIS_TSTRB    =   {(C_M_AXIS_TDATA_WIDTH/8){1'b1}};
-always @ (readPtr, readAddrCnt, colCount)
+
+//always@(*)begin
+//    readAddrCnt =   readPtr* SAMPLE_COUNT[RAM_ADDRW-1:0];
+//end
+wire [RAM_ADDRW-1:0] readCountWire;
+assign readCountWire = readCount; 
+reg [RAM_ADDRW-1:0]readAddrBuf;
+always@(*)begin
+    readAddrBuf = (readCountWire * (6'd8));
+end 
+
+always @ (readPtr, readAddrBuf, colCount)
 begin
-    RAM_RADDR = readPtr + readAddrCnt + colCount;
+    RAM_RADDR = readPtr + readAddrBuf + colCount;
 end
 
 always@(posedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)begin
@@ -81,14 +98,20 @@ always@(posedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)begin
         //tvalidR         <=  0;
         readCount       <=  0;
         readPtr         <=  RAM_DEPTH/2;
-        readAddrCnt      <=  0;
+        readAddrCnt      <=  {RAM_ADDRW{1'b0}};
         colCount        <=  0;
         test            <=  0;
         end
     else if(NextState ==  STATE_readCntIncr)begin
         CurrentState    <=  NextState;
-        readCount       <= readCount + 1;
-        readAddrCnt     <= readAddrCnt + SAMPLE_COUNT; 
+        if(readCount == (FRAME_SIZE - 1))begin
+            readAddrCnt <=  {RAM_ADDRW{1'b0}};
+            readCount   <= 0;
+            colCount    <=  colCount    + 1;
+            end
+        else    
+            readCount       <= readCount + 1;
+            readAddrCnt     <= readAddrCnt + SAMPLE_COUNT; 
         end
     else if(CurrentState ==  STATE_pingPong) begin
         readPtr         <=   readPtr + RAM_DEPTH/2;
@@ -101,7 +124,7 @@ always@(posedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)begin
         CurrentState    <=  NextState;
         colCount        <=  colCount + 1;
         readCount       <=  0;
-        readAddrCnt     <=  0;
+        readAddrCnt     <=  {RAM_ADDRW{1'b0}};
         test            <=  test    +1;
         //$display("At state 4");
         //$display(colCount);
@@ -109,6 +132,8 @@ always@(posedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)begin
     else if(CurrentState  ==    STATE_waitRxDone)begin
         CurrentState    <=  NextState;
         colCount        <=  0;
+        readCount       <=  0;
+        readAddrCnt     <=  0;
     end
     else begin
     CurrentState    <=  NextState;
@@ -142,9 +167,10 @@ always@(*)begin
         STATE_read:begin
             RAM_EN          =   1;
             tx_done         =   0;
-            tvalidR         =   0;
+            tvalidR         =   1;
             if(M_AXIS_TREADY    ==   0)
                 NextState   =   STATE_read;
+//            else if ()    
             else
                 NextState   =   STATE_readCntIncr;
             end
@@ -152,10 +178,12 @@ always@(*)begin
             tvalidR         =   1;
             RAM_EN          =   1;
             tx_done         =   0;
-            if(readCount    ==  (FRAME_SIZE-1))
-                NextState   =   STATE_colIncr;
-            else if(M_AXIS_TREADY == 0) //should this be else if or just if
+            if(M_AXIS_TREADY == 0) //should this be else if or just if
                 NextState   = STATE_read;
+            else if((readCount    ==  (FRAME_SIZE-1)) && ((colCount+1) == SAMPLE_COUNT))
+                NextState   =   STATE_waitRxDone;
+            else if (readCount    ==  (FRAME_SIZE-1))
+                NextState   =   STATE_colIncr;
             else
                 NextState   =   STATE_readCntIncr;   
         end

@@ -75,7 +75,7 @@ always @(posedge clk) begin
     end
 end
 
-always @(posedge clk) begin
+always @(*) begin
     if (enb)
         dob = ram[addrb];
     else
