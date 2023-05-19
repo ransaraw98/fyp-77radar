@@ -2,7 +2,7 @@
 `timescale 1 ns / 1 ps
 
 	
-(* DONT_TOUCH = "yes" *)
+//(* DONT_TOUCH = "yes" *)
 module rearrng_ppong_buf_v1_0_M_AXIS #
 	(
 		// Users to add parameters here
@@ -29,7 +29,7 @@ module rearrng_ppong_buf_v1_0_M_AXIS #
         output reg [RAM_ADDRW-1:0] RAM_RADDR,   
         output reg [2:0] NextState,
         output reg [RAM_ADDRW-1:0] readPtr,
-        output reg [RAM_ADDRW-1:0] readCount, 
+        //output reg [RAM_ADDRW-1:0] readCount, 
         output reg [RAM_ADDRW-1:0] readAddrCnt,  
         output reg [RAM_ADDRW-1:0] colCount,
 		// User ports ends
@@ -64,7 +64,7 @@ reg [2:0] CurrentState;
 
 reg tvalidR;
 //reg [RAM_ADDRW-1:0] readPtr;
-////reg [RAM_ADDRW-1:0] readCount; 
+reg [RAM_ADDRW-1:0] readCount; 
 //reg [RAM_ADDRW-1:0] readAddrCnt;  
 //reg [RAM_ADDRW-1:0] colCount;
 
