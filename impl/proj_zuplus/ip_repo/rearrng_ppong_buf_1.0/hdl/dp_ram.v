@@ -48,7 +48,8 @@
 
 module dp_ram #( parameter integer DATA_WIDTH = 32,
                  parameter integer DEPTH      = 64,
-                 parameter integer ADDRW      = 6
+                 parameter integer ADDRW      = 6,
+		          parameter RAM_TYPE = "block"
     )(
 
 input clk,
@@ -60,7 +61,8 @@ input [DATA_WIDTH-1:0] dia,
 output reg [DATA_WIDTH-1:0] dob
 );
 
-reg [DATA_WIDTH-1:0] ram [DEPTH-1:0];
+
+(*ram_style = RAM_TYPE*)reg [DATA_WIDTH-1:0] ram [DEPTH-1:0];
 //reg [DATA_WIDTH-1:0] doa,dob;
 //integer i = 0;
 //initial begin
@@ -75,7 +77,7 @@ always @(posedge clk) begin
     end
 end
 
-always @(*) begin
+always @(negedge clk) begin
     if (enb)
         dob = ram[addrb];
     else

@@ -18,6 +18,7 @@ proc init_gui { IPINST } {
   set_property tooltip {Number of words in the output frame.} ${FRAME_SIZE}
   set SAMPLE_COUNT [ipgui::add_param $IPINST -name "SAMPLE_COUNT"]
   set_property tooltip {Number of words in the input frame.} ${SAMPLE_COUNT}
+  ipgui::add_param $IPINST -name "RAM_TYPE" -widget comboBox
 
 }
 
@@ -45,6 +46,15 @@ proc update_PARAM_VALUE.RAM_DEPTH { PARAM_VALUE.RAM_DEPTH } {
 
 proc validate_PARAM_VALUE.RAM_DEPTH { PARAM_VALUE.RAM_DEPTH } {
 	# Procedure called to validate RAM_DEPTH
+	return true
+}
+
+proc update_PARAM_VALUE.RAM_TYPE { PARAM_VALUE.RAM_TYPE } {
+	# Procedure called to update RAM_TYPE when any of the dependent parameters in the arguments change
+}
+
+proc validate_PARAM_VALUE.RAM_TYPE { PARAM_VALUE.RAM_TYPE } {
+	# Procedure called to validate RAM_TYPE
 	return true
 }
 
@@ -118,5 +128,10 @@ proc update_MODELPARAM_VALUE.FRAME_SIZE { MODELPARAM_VALUE.FRAME_SIZE PARAM_VALU
 proc update_MODELPARAM_VALUE.SAMPLE_COUNT { MODELPARAM_VALUE.SAMPLE_COUNT PARAM_VALUE.SAMPLE_COUNT } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
 	set_property value [get_property value ${PARAM_VALUE.SAMPLE_COUNT}] ${MODELPARAM_VALUE.SAMPLE_COUNT}
+}
+
+proc update_MODELPARAM_VALUE.RAM_TYPE { MODELPARAM_VALUE.RAM_TYPE PARAM_VALUE.RAM_TYPE } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.RAM_TYPE}] ${MODELPARAM_VALUE.RAM_TYPE}
 }
 

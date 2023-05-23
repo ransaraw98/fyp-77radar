@@ -63,6 +63,8 @@ reg [2:0] CurrentState;
 //reg [2:0] NextState;
 
 reg tvalidR;
+reg tvalidRbuf;
+reg tlastBuf;
 //reg [RAM_ADDRW-1:0] readPtr;
 reg [RAM_ADDRW-1:0] readCount; 
 //reg [RAM_ADDRW-1:0] readAddrCnt;  
@@ -71,9 +73,10 @@ reg [RAM_ADDRW-1:0] readCount;
 reg [RAM_ADDRW-1:0] test;
 //assign  RAM_RADDR       =   readPtr + readCount;
 assign  M_AXIS_TDATA    =   ch1_ram_dout;
-assign  M_AXIS_TVALID   =   tvalidR;
+assign  M_AXIS_TVALID   =   tvalidRbuf;
 //assign  M_AXIS_TLAST    =   (CurrentState  ==  STATE_colIncr) ? 1'b1:1'b0;
-assign  M_AXIS_TLAST    =   (readCount    ==  (FRAME_SIZE-1)) ? 1'b1:1'b0;
+//assign  M_AXIS_TLAST    =   (readCount    ==  (FRAME_SIZE-1)) ? 1'b1:1'b0;
+assign M_AXIS_TLAST     =   tlastBuf;
 assign  M_AXIS_TSTRB    =   {(C_M_AXIS_TDATA_WIDTH/8){1'b1}};
 
 //always@(*)begin
@@ -218,6 +221,30 @@ always@(*)begin
     end
 
 
+//aligning tvliad and tready's with RAM's negedge operation
+
+reg tlast_del;
+reg r_clk50=0;
+
+wire w_xor_clk50=(r_clk50 ^ M_AXIS_ACLK);
+
+always@(posedge w_xor_clk50) begin
+
+    r_clk50=~r_clk50;
+
+    tvalidRbuf  <=  tvalidR;   
+    if(readCount    ==  (FRAME_SIZE-1))begin
+//        tlast_del    <= 1;
+//        tlastBuf    <=  tlast_del;
+        tlastBuf    <=  1;
+        end
+    else    begin
+//        tlast_del   <=  0;
+//        tlastBuf    <= tlast_del;
+        tlastBuf    <=  0;
+        end
+
+end
 
 
 endmodule

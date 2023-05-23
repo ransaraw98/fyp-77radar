@@ -19,7 +19,8 @@
 		parameter integer RAM_ADDRW   =   6,
 		parameter integer RAM_DEPTH   =   64,
 	    parameter integer FRAME_SIZE  =   4,
-		parameter integer SAMPLE_COUNT    =   8
+		parameter integer SAMPLE_COUNT    =   8,
+		parameter RAM_TYPE = "block"
 	)
 	(
 		// Users to add ports here
@@ -65,7 +66,9 @@
 		.C_M_AXIS_TDATA_WIDTH(C_M_AXIS_TDATA_WIDTH),
 		.C_M_START_COUNT(C_M_AXIS_START_COUNT),
 		.RAM_ADDRW(RAM_ADDRW),
-		.RAM_DEPTH(RAM_DEPTH)
+		.RAM_DEPTH(RAM_DEPTH),
+		.FRAME_SIZE(FRAME_SIZE),
+		.SAMPLE_COUNT(SAMPLE_COUNT)
 	) ping_pong_buf_v1_0_M_AXIS_inst (
 		.M_AXIS_ACLK(m_axis_aclk),
 		.M_AXIS_ARESETN(m_axis_aresetn),
@@ -109,7 +112,8 @@
 	
     dp_ram #(.DATA_WIDTH(C_S_AXIS_TDATA_WIDTH),
              .DEPTH(RAM_DEPTH),
-             .ADDRW(RAM_ADDRW)
+             .ADDRW(RAM_ADDRW),
+             .RAM_TYPE(RAM_TYPE)
              ) CH1_ram(
                 .clk(s_axis_aclk),
                 .ena(ch1_wen),
