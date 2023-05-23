@@ -45,8 +45,8 @@ fileID = fopen('radarImageROM.txt','w');
 for i = 1:row
     for j = 1:col
         addr = ((i-1)*col)+((j-1));       % matlab indexing starts at 1 for some reason
-        data = strcat('32h',dec2hex(radarImage_sc_q(j,i),4),dec2hex(radarImage_sc_i(j,i),4));
-        addrstr = strcat('14d',string(addr));
+        data = strcat('32''h',dec2hex(radarImage_sc_q(j,i),4),dec2hex(radarImage_sc_i(j,i),4));
+        addrstr = strcat('14''d',string(addr));
         if(mod(addr+1,3)==0)
             completeStr = strcat(addrstr,':','data <=',data,';','\n');
         else
