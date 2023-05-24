@@ -33,7 +33,7 @@ output wire [DATA_WIDTH-1:0] dout
     );
     
 //DD clock
-reg r_clk50=0;
+(*ram_style = "registers"*)reg r_clk50=0;
 
 wire w_xor_clk50=(r_clk50 ^ clk);
 

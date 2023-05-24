@@ -45,7 +45,7 @@ reg tvalidR;
 assign M_AXIS_TDATA = data_in;
 assign M_AXIS_TSTRB = {(C_M_AXIS_TDATA_WIDTH/8){1'b1}};
 
-always@(posedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)begin
+always@(posedge M_AXIS_ACLK)begin           //ASYNC RESET
     if(!M_AXIS_ARESETN)
         countR1 <= {ADDRW{1'b0}};
     else
@@ -67,7 +67,7 @@ always@(posedge M_AXIS_ACLK)
  
  reg tvalidRdel;
  
- always@(negedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)
+ always@(negedge M_AXIS_ACLK)
     if(!M_AXIS_ARESETN)
         tvalidRdel <= 0;
     else
@@ -76,7 +76,7 @@ always@(posedge M_AXIS_ACLK)
  assign M_AXIS_TVALID = tvalidRdel;
  reg [C_M_AXIS_TDATA_WIDTH-1:0] transferCount;
  
- always@(posedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)
+ always@(posedge M_AXIS_ACLK)
     if(!M_AXIS_ARESETN)begin
         countR2 <= 0;
         transferCount <= 0;
