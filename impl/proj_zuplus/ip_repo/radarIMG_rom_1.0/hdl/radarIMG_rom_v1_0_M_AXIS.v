@@ -43,7 +43,7 @@ reg [ADDRW-1:0] countR1;
 reg [ADDRW-1:0] countR2;
 reg tvalidR;
 assign M_AXIS_TDATA = data_in;
-
+assign M_AXIS_TSTRB = {(C_M_AXIS_TDATA_WIDTH/8){1'b1}};
 
 always@(posedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)begin
     if(!M_AXIS_ARESETN)
@@ -67,25 +67,33 @@ always@(posedge M_AXIS_ACLK)
  
  reg tvalidRdel;
  
- always@(posedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)
+ always@(negedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)
     if(!M_AXIS_ARESETN)
         tvalidRdel <= 0;
     else
         tvalidRdel <= tvalidR;
  
  assign M_AXIS_TVALID = tvalidRdel;
+ reg [C_M_AXIS_TDATA_WIDTH-1:0] transferCount;
  
  always@(posedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)
-    if(!M_AXIS_ARESETN)
+    if(!M_AXIS_ARESETN)begin
         countR2 <= 0;
-    else if((tvalidR == 1) && (M_AXIS_TREADY == 1))
+        transferCount <= 0;
+        end
+    else if((tvalidR == 1) && (M_AXIS_TREADY == 1))begin
         countR2    <=   countR2 + 1;
+        if(transferCount == 63)
+            transferCount <= 0;
+        else
+            transferCount <= transferCount + 1;
+        end
     else 
         countR2     <= countR2;     // LATCH!
             
     
  assign addr_out = countR2;
- 
+ assign M_AXIS_TLAST = (transferCount == 63)?1:0;
 
 
 	endmodule
