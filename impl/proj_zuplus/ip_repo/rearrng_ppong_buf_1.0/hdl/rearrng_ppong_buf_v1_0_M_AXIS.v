@@ -94,7 +94,7 @@ begin
     RAM_RADDR = readPtr + readAddrBuf + colCount;
 end
 
-always@(posedge M_AXIS_ACLK, negedge M_AXIS_ARESETN)begin
+always@(posedge M_AXIS_ACLK)begin
     if(!M_AXIS_ARESETN)begin
         CurrentState    <=  STATE_Initial;
         //tx_done         <=  0;
