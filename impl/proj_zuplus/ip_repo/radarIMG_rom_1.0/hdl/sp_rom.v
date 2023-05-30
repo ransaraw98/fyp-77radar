@@ -33,21 +33,21 @@ output wire [DATA_WIDTH-1:0] dout
     );
     
 //DD clock
-(*ram_style = "registers"*)reg r_clk50=0;
+//(*ram_style = "registers"*)reg r_clk50=0;
 
-wire w_xor_clk50=(r_clk50 ^ clk);
+//wire w_xor_clk50=(r_clk50 ^ clk);
 
-always@(posedge w_xor_clk50) begin
+//always@(posedge w_xor_clk50) begin
 
-    r_clk50=~r_clk50;
+//    r_clk50=~r_clk50;
 
-    // your code on both neg/pos
-end
+//    // your code on both neg/pos
+//end
  
     
  (*rom_style = RAM_TYPE*) reg [DATA_WIDTH-1:0] data;   
     
-always@(posedge w_xor_clk50)
+always@(negedge clk)
 begin
     if(en)
     case (addr)

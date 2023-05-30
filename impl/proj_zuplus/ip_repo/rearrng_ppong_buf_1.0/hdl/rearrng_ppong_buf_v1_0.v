@@ -27,9 +27,11 @@
 		//input wire ch1_tx_done,
 //		input wire tx_en_temp,
 //		input wire ch1_rx_done_temp,
+        output wire tx_done_out,
+        output wire rx_done_out,
 		// User ports ends
 		// Do not modify the ports beyond this line
-
+    
 
 		// Ports of Axi Master Bus Interface M_AXIS
 		input wire  m_axis_aclk,
@@ -60,6 +62,10 @@
         wire [RAM_ADDRW-1:0]   ch1_ram_raddr;
         wire [C_S_AXIS_TDATA_WIDTH-1 : 0]  ch1_ram_din;
         wire [C_S_AXIS_TDATA_WIDTH-1 : 0]  ch1_ram_dout;
+    
+
+        assign tx_done_out = ch1_tx_done;
+        assign rx_done_out = ch1_rx_done;
 
 // Instantiation of Axi Bus Interface M_AXIS
 	rearrng_ppong_buf_v1_0_M_AXIS # ( 

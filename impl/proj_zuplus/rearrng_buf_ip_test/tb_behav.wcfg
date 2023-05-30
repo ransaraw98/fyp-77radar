@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="166703800000fs"></ZoomStartTime>
+      <ZoomEndTime time="166820800001fs"></ZoomEndTime>
+      <Cursor1Time time="166765000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="295"></NameColumnWidth>
+      <ValueColumnWidth column_width="122"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="40" />
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/ch1_ram_dout" type="array">
+      <obj_property name="ElementShortName">ch1_ram_dout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ch1_ram_dout[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/M_AXIS_TDATA" type="array">
+      <obj_property name="ElementShortName">M_AXIS_TDATA[31:0]</obj_property>
+      <obj_property name="ObjectShortName">M_AXIS_TDATA[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/M_AXIS_TLAST" type="logic">
+      <obj_property name="ElementShortName">M_AXIS_TLAST</obj_property>
+      <obj_property name="ObjectShortName">M_AXIS_TLAST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/M_AXIS_ACLK" type="logic">
+      <obj_property name="ElementShortName">M_AXIS_ACLK</obj_property>
+      <obj_property name="ObjectShortName">M_AXIS_ACLK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/rx_done" type="logic">
+      <obj_property name="ElementShortName">rx_done</obj_property>
+      <obj_property name="ObjectShortName">rx_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/tx_en" type="logic">
+      <obj_property name="ElementShortName">tx_en</obj_property>
+      <obj_property name="ObjectShortName">tx_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/tx_done" type="logic">
+      <obj_property name="ElementShortName">tx_done</obj_property>
+      <obj_property name="ObjectShortName">tx_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/RAM_EN" type="logic">
+      <obj_property name="ElementShortName">RAM_EN</obj_property>
+      <obj_property name="ObjectShortName">RAM_EN</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/RAM_RADDR" type="array">
+      <obj_property name="ElementShortName">RAM_RADDR[14:0]</obj_property>
+      <obj_property name="ObjectShortName">RAM_RADDR[14:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/NextState" type="array">
+      <obj_property name="ElementShortName">NextState[2:0]</obj_property>
+      <obj_property name="ObjectShortName">NextState[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/readPtr" type="array">
+      <obj_property name="ElementShortName">readPtr[14:0]</obj_property>
+      <obj_property name="ObjectShortName">readPtr[14:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/readAddrCnt" type="array">
+      <obj_property name="ElementShortName">readAddrCnt[14:0]</obj_property>
+      <obj_property name="ObjectShortName">readAddrCnt[14:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/colCount" type="array">
+      <obj_property name="ElementShortName">colCount[14:0]</obj_property>
+      <obj_property name="ObjectShortName">colCount[14:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/M_AXIS_ARESETN" type="logic">
+      <obj_property name="ElementShortName">M_AXIS_ARESETN</obj_property>
+      <obj_property name="ObjectShortName">M_AXIS_ARESETN</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/M_AXIS_TVALID" type="logic">
+      <obj_property name="ElementShortName">M_AXIS_TVALID</obj_property>
+      <obj_property name="ObjectShortName">M_AXIS_TVALID</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/M_AXIS_TSTRB" type="array">
+      <obj_property name="ElementShortName">M_AXIS_TSTRB[3:0]</obj_property>
+      <obj_property name="ObjectShortName">M_AXIS_TSTRB[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/M_AXIS_TREADY" type="logic">
+      <obj_property name="ElementShortName">M_AXIS_TREADY</obj_property>
+      <obj_property name="ObjectShortName">M_AXIS_TREADY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/CurrentState" type="array">
+      <obj_property name="ElementShortName">CurrentState[2:0]</obj_property>
+      <obj_property name="ObjectShortName">CurrentState[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/tvalidR" type="logic">
+      <obj_property name="ElementShortName">tvalidR</obj_property>
+      <obj_property name="ObjectShortName">tvalidR</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/tvalidRbuf" type="logic">
+      <obj_property name="ElementShortName">tvalidRbuf</obj_property>
+      <obj_property name="ObjectShortName">tvalidRbuf</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/tlastBuf" type="logic">
+      <obj_property name="ElementShortName">tlastBuf</obj_property>
+      <obj_property name="ObjectShortName">tlastBuf</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/readCount" type="array">
+      <obj_property name="ElementShortName">readCount[14:0]</obj_property>
+      <obj_property name="ObjectShortName">readCount[14:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/test" type="array">
+      <obj_property name="ElementShortName">test[14:0]</obj_property>
+      <obj_property name="ObjectShortName">test[14:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/readCountWire" type="array">
+      <obj_property name="ElementShortName">readCountWire[14:0]</obj_property>
+      <obj_property name="ObjectShortName">readCountWire[14:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/readAddrBuf" type="array">
+      <obj_property name="ElementShortName">readAddrBuf[14:0]</obj_property>
+      <obj_property name="ObjectShortName">readAddrBuf[14:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/tlast_del" type="logic">
+      <obj_property name="ElementShortName">tlast_del</obj_property>
+      <obj_property name="ObjectShortName">tlast_del</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/r_clk50" type="logic">
+      <obj_property name="ElementShortName">r_clk50</obj_property>
+      <obj_property name="ObjectShortName">r_clk50</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/w_xor_clk50" type="logic">
+      <obj_property name="ElementShortName">w_xor_clk50</obj_property>
+      <obj_property name="ObjectShortName">w_xor_clk50</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/C_M_AXIS_TDATA_WIDTH" type="array">
+      <obj_property name="ElementShortName">C_M_AXIS_TDATA_WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_M_AXIS_TDATA_WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/C_M_START_COUNT" type="array">
+      <obj_property name="ElementShortName">C_M_START_COUNT[31:0]</obj_property>
+      <obj_property name="ObjectShortName">C_M_START_COUNT[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/RAM_ADDRW" type="array">
+      <obj_property name="ElementShortName">RAM_ADDRW[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RAM_ADDRW[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/RAM_DEPTH" type="array">
+      <obj_property name="ElementShortName">RAM_DEPTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RAM_DEPTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/FRAME_SIZE" type="array">
+      <obj_property name="ElementShortName">FRAME_SIZE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">FRAME_SIZE[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/SAMPLE_COUNT" type="array">
+      <obj_property name="ElementShortName">SAMPLE_COUNT[31:0]</obj_property>
+      <obj_property name="ObjectShortName">SAMPLE_COUNT[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/STATE_Initial" type="array">
+      <obj_property name="ElementShortName">STATE_Initial[2:0]</obj_property>
+      <obj_property name="ObjectShortName">STATE_Initial[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/STATE_pingPong" type="array">
+      <obj_property name="ElementShortName">STATE_pingPong[2:0]</obj_property>
+      <obj_property name="ObjectShortName">STATE_pingPong[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/STATE_read" type="array">
+      <obj_property name="ElementShortName">STATE_read[2:0]</obj_property>
+      <obj_property name="ObjectShortName">STATE_read[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/STATE_readCntIncr" type="array">
+      <obj_property name="ElementShortName">STATE_readCntIncr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">STATE_readCntIncr[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/STATE_colIncr" type="array">
+      <obj_property name="ElementShortName">STATE_colIncr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">STATE_colIncr[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/design_1_i/rearrng_ppong_buf_1/inst/ping_pong_buf_v1_0_M_AXIS_inst/STATE_waitRxDone" type="array">
+      <obj_property name="ElementShortName">STATE_waitRxDone[2:0]</obj_property>
+      <obj_property name="ObjectShortName">STATE_waitRxDone[2:0]</obj_property>
+   </wvobject>
+</wave_config>

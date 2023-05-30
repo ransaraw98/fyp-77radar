@@ -40,8 +40,8 @@
 	);
 
 reg [ADDRW-1:0] countR1;
-//reg [ADDRW-1:0] countR2;
-reg [6:0] countR2;
+reg [ADDRW-1:0] countR2;
+//reg [6:0] countR2;
 reg tvalidR;
 assign M_AXIS_TDATA = data_in;
 assign M_AXIS_TSTRB = {(C_M_AXIS_TDATA_WIDTH/8){1'b1}};

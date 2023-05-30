@@ -8,7 +8,7 @@ sock = socket.socket(socket.AF_INET, # Internet
 sock.bind((UDP_IP, UDP_PORT))
 
 while True:
-    data, addr = sock.recvfrom(1440) # buffer size is 1024 bytes
+    data, addr = sock.recvfrom(260) # buffer size is 1024 bytes
     print("Packet Start")
     try:
         print(data.decode('ascii')) # assumes received data is in UTF-8 format
