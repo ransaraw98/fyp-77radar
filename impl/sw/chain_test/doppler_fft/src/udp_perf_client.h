@@ -99,7 +99,7 @@ struct perf_stats {
 #define UDP_SERVER_IP_ADDRESS "192.168.1.100"
 
 /* UDP buffer length in bytes */
-#define UDP_SEND_BUFSIZE 1032
+#define UDP_SEND_BUFSIZE 1040
 
 /* MAX UDP send retries */
 #define MAX_SEND_RETRY 10
