@@ -31,7 +31,8 @@ word_size_bytes = 4
 packet_size = 1028	#in bytes
 num_words = (packet_size//word_size_bytes) - 1
 
-output_array = [[] for i in range(64)]
+#output_array = [[] for i in range(64)]
+output_array = np.empty((128,), dtype=object)
 output_filename = "outputCORDIC.txt"
 
 packet_count = 0

@@ -207,7 +207,7 @@ struct netif server_netif;
 /*
  * Buffer and Buffer Descriptor related constant definition
  */
-#define MAX_PKT_LEN		0x404//0x580 257
+#define MAX_PKT_LEN		0x408//0x580 257
 
 #define NUMBER_OF_TRANSFERS	10
 
@@ -508,8 +508,8 @@ int main(void)
 //			return XST_FAILURE;
 //		}
 
-		Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) (RxBufferPtr + 1),
-					(MAX_PKT_LEN - 4), XAXIDMA_DEVICE_TO_DMA);
+		Status = XAxiDma_SimpleTransfer(&AxiDma,(UINTPTR) (RxBufferPtr + 2),
+					(MAX_PKT_LEN - 8), XAXIDMA_DEVICE_TO_DMA);
 
 		if (Status != XST_SUCCESS) {
 			j = -1;
@@ -545,7 +545,7 @@ int main(void)
 			}
 			xemacif_input(netif);
 			transfer_data();
-			xferD = (xferD + 1) & 0b00111111;
+			xferD = (xferD + 1) & 0b01111111;
 	}
 		if (Error) {
 			xil_printf("Failed test transmit%s done, "
