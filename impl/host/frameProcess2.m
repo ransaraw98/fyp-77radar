@@ -12,10 +12,10 @@ framesize = size(frame);
 rangeFFTlen = framesize(1);
 dopplerFFTlen = framesize(2);
 
-%wr = hann(64);
-wr = kaiser(64,15);
-%wd = hann(256);
-wd = kaiser(256,25);
+wr = hann(64);
+%wr = kaiser(64,15);
+wd = hann(256);
+%wd = kaiser(256,25);
 %w = fftshift(w);
 frame = wr .* frame;
 

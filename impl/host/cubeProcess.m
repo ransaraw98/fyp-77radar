@@ -2,10 +2,26 @@ radarImage = xrvIso;
 radarImage_i = real(radarImage);
 radarImage_q = imag(radarImage);
 radarImage_abs = abs(radarImage);
-sc_fct = 10* min(radarImage_abs,[],"all");
 
-radarImage_sc_i = int16(radarImage_i/sc_fct);
-radarImage_sc_q = int16(radarImage_q/sc_fct);
+sc_factors = min(radarImage_abs,[],[1 3]);
+sc_factors(2) = sc_factors(2)*5;
+sc_factors(3) = sc_factors(3)*5;
+sc_factors(4) = sc_factors(4)*5;
+sc_factors(5) = sc_factors(5)*5;
+sc_factors(6) = sc_factors(6)*5;
+sc_factors(7) = sc_factors(7)*5;
+
+%sc_fct = min(radarImage_abs,[],"all");
+radarImage_sc_i = zeros(64,8,256);
+radarImage_sc_q = zeros(64,8,256);
+
+for i = 1:size(radarImage,2)
+    radarImage_sc_i(:,i,:) = int16(radarImage_i(:,i,:)/sc_factors(i));
+    radarImage_sc_q(:,i,:) = int16(radarImage_q(:,i,:)/sc_factors(i));
+end
+
+%radarImage_sc_i = int16(radarImage_i/sc_fct);
+%radarImage_sc_q = int16(radarImage_q/sc_fct);
 radarImage_sc = complex(radarImage_sc_i,radarImage_sc_q);
 
 wr = kaiser(64,15);
@@ -61,24 +77,90 @@ for i=1:size(objR)
     text(objC(i),objR(i),num2str(AoAs(i)));
 end
 % 
-% [col,row] = size(radarImage_sc_i);
+[col,row] = size(squeeze(radarImage_sc_i(:,1,:)));
 % % row = 1;
 % % col = 5;
-% fileID = fopen('radarImageROM.txt','w');
-% 
-% 
-% for i = 1:row
-%     for j = 1:col
-%         addr = ((i-1)*col)+((j-1));       % matlab indexing starts at 1 for some reason
-%         data = strcat('32''h',dec2hex(radarImage_sc_q(j,i),4),dec2hex(radarImage_sc_i(j,i),4));
-%         addrstr = strcat('14''d',string(addr));
-%         if(mod(addr+1,3)==0)
-%             completeStr = strcat(addrstr,':','data <=',data,';','\n');
-%         else
-%            completeStr = strcat(addrstr,':','data <=',data,'; ');
-%         end
-%         fprintf(fileID,completeStr);
-%     end
-% end
-% 
-% fclose(fileID);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% WRITE ROM 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+fileID1 = fopen('radarImageROM1.txt','w');
+temp_real = radarImage_sc_i(:,1,:);
+temp_imag = radarImage_sc_q(:,1,:);
+
+for i = 1:row
+    for j = 1:col
+        addr = ((i-1)*col)+((j-1));       % matlab indexing starts at 1 for some reason
+        data = strcat('32''h',dec2hex(temp_imag(j,i),4),dec2hex(temp_real(j,i),4));
+        addrstr = strcat('14''d',string(addr));
+        if(mod(addr+1,3)==0)
+            completeStr = strcat(addrstr,':','data <=',data,';','\n');
+        else
+           completeStr = strcat(addrstr,':','data <=',data,'; ');
+        end
+        fprintf(fileID1,completeStr);
+    end
+end 
+fclose(fileID1);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% WRITE ROM 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+fileID2 = fopen('radarImageROM2.txt','w');
+temp_real = radarImage_sc_i(:,2,:);
+temp_imag = radarImage_sc_q(:,2,:);
+
+for i = 1:row
+    for j = 1:col
+        addr = ((i-1)*col)+((j-1));       % matlab indexing starts at 1 for some reason
+        data = strcat('32''h',dec2hex(temp_imag(j,i),4),dec2hex(temp_real(j,i),4));
+        addrstr = strcat('14''d',string(addr));
+        if(mod(addr+1,3)==0)
+            completeStr = strcat(addrstr,':','data <=',data,';','\n');
+        else
+           completeStr = strcat(addrstr,':','data <=',data,'; ');
+        end
+        fprintf(fileID2,completeStr);
+    end
+end 
+fclose(fileID2);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% WRITE ROM 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+fileID3 = fopen('radarImageROM3.txt','w');
+temp_real = radarImage_sc_i(:,3,:);
+temp_imag = radarImage_sc_q(:,3,:);
+
+for i = 1:row
+    for j = 1:col
+        addr = ((i-1)*col)+((j-1));       % matlab indexing starts at 1 for some reason
+        data = strcat('32''h',dec2hex(temp_imag(j,i),4),dec2hex(temp_real(j,i),4));
+        addrstr = strcat('14''d',string(addr));
+        if(mod(addr+1,3)==0)
+            completeStr = strcat(addrstr,':','data <=',data,';','\n');
+        else
+           completeStr = strcat(addrstr,':','data <=',data,'; ');
+        end
+        fprintf(fileID3,completeStr);
+    end
+end 
+fclose(fileID3);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% WRITE ROM 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+fileID4 = fopen('radarImageROM4.txt','w');
+temp_real = radarImage_sc_i(:,4,:);
+temp_imag = radarImage_sc_q(:,4,:);
+
+for i = 1:row
+    for j = 1:col
+        addr = ((i-1)*col)+((j-1));       % matlab indexing starts at 1 for some reason
+        data = strcat('32''h',dec2hex(temp_imag(j,i),4),dec2hex(temp_real(j,i),4));
+        addrstr = strcat('14''d',string(addr));
+        if(mod(addr+1,3)==0)
+            completeStr = strcat(addrstr,':','data <=',data,';','\n');
+        else
+           completeStr = strcat(addrstr,':','data <=',data,'; ');
+        end
+        fprintf(fileID4,completeStr);
+    end
+end 
+fclose(fileID4);

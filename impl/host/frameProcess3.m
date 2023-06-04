@@ -6,14 +6,17 @@ sc_fct = min(radarImage_abs,[],"all");
 
 radarImage_sc_i = int16(radarImage_i/sc_fct);
 radarImage_sc_q = int16(radarImage_q/sc_fct);
-radarImage_sc = complex(radarImage_sc_i,radarImage_sc_q);
+%radarImage_sc = complex(radarImage_sc_i,radarImage_sc_q);
 
-wr = kaiser(64,15);
-wrsc = int16((wr/min(wr,[],"all"))/22);
+%wr = hann(64);
+%wr_scaled = wr * (2^7 -1);
+%wr_scaled_int = int16(wr_scaled);
 
-%radarImageWind = complex(radarImage_sc_i .* wrsc,radarImage_sc_q .* wrsc);
+%wrsc = int16((wr/min(wr,[],"all"))/22);
 
-rangeData   =  int16(fftshift(fft(radarImage_sc,64,1)));
+radarImage_sc   =   complex(int16(radarImage_sc_i),int16(radarImage_sc_q));
+%radarImageWind = complex(radarImage_sc_i .* wrsc,radarImage_sc_q .* wrsc); 
+rangeData       =   int16(fftshift(fft(radarImage_sc,64,1)));
 
 rangedopplerData = int16(fftshift(fft(rangeData,256,2),2));
 %output  =   abs(rangedopplerData);
