@@ -12,7 +12,8 @@
 		parameter integer C_M_AXIS_TDATA_WIDTH	= 32,
 		// Start count is the number of clock cycles the master will wait before initiating/issuing any transaction.
 		parameter integer C_M_AXIS_START_COUNT	= 32,
-		parameter integer ADDRW = 14
+		parameter integer ADDRW = 14,
+		parameter integer CHIRP_LENGTH = 64
 	)
 	(
 		// Users to add ports here
@@ -21,6 +22,7 @@
 		output reg rom_en_out,
 		input [C_M_AXIS_TDATA_WIDTH-1:0] data_in,
 		output wire [ADDRW-1:0]addr_out,
+		output wire [$clog2(CHIRP_LENGTH)-1:0] tuser,
 		// Do not modify the ports beyond this line
 
 		// Global ports
@@ -96,5 +98,6 @@ always@(posedge M_AXIS_ACLK)
  assign addr_out = countR2;
  assign M_AXIS_TLAST = (transferCount == 63)?1:0;
 
-
+ assign tuser = transferCount[$clog2(CHIRP_LENGTH)-1:0];
+ 
 	endmodule

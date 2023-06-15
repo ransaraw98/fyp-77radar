@@ -14,6 +14,7 @@ range_max = 150; %300m target
 tm = 6e-6;
 
 range_res =14.0625;  %0.3 target
+%range_res =3;  
 bw = rangeres2bw(range_res,c);
 sweep_slope = bw/tm;
 fr_max = range2beat(range_max,sweep_slope,c);
@@ -23,5 +24,10 @@ fd_max = speed2dop(2*v_max,lambda);
 
 fb_max = fr_max+fd_max;
 fs = max(2*fb_max,bw);
+%fs = 2*fb_max;
+%fs = 2*fb_max;
+%fs = 10e6;
+%bwm = 80e6;
+%sweep_time = 6.4e-6;
 wav = phased.FMCWWaveform('SweepTime',tm,'SweepBandwidth',bw,...
     'SampleRate',fs);

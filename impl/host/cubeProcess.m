@@ -52,6 +52,12 @@ for i = 1:channel
 end
 figure;
 imagesc(squeeze(output(:,1,:)));
+figure;
+imagesc(squeeze(output(:,2,:)));
+figure;
+imagesc(squeeze(output(:,3,:)));
+figure;
+imagesc(squeeze(output(:,4,:)));
 
 co_sum_image = sum(output,2);
 
@@ -59,7 +65,7 @@ figure;
 imagesc(squeeze(co_sum_image));
 
 max_sum = max(squeeze(co_sum_image),[],"all");
-thresholded_image = (squeeze(co_sum_image) > max_sum/2);
+thresholded_image = (squeeze(co_sum_image) > (max_sum*0.6));
 imagesc(thresholded_image);
 [objR,objC] =   find(thresholded_image);
 subArray = zeros(160,8);
@@ -67,7 +73,8 @@ subArray = zeros(160,8);
 for i = 1:size(objR)
     subArray(i,:) = rangedopplerData(objR(i),:,objC(i));
 end
-
+wavelength = 0.0039;
+d = wavelength /2;
 fftobjs = fft(subArray,64,2); 
 f = rad2deg(asin(linspace(-0.5*wavelength/d,+0.5*wavelength/d,64)));
 [val,locs] = maxk(abs(fftobjs),1,2);
@@ -88,9 +95,9 @@ temp_imag = radarImage_sc_q(:,1,:);
 
 for i = 1:row
     for j = 1:col
-        addr = ((i-1)*col)+((j-1));       % matlab indexing starts at 1 for some reason
+        addr = ((i-1)*col)+((j-1)) + 16384;       % matlab indexing starts at 1 for some reason + 16384 for second scene
         data = strcat('32''h',dec2hex(temp_imag(j,i),4),dec2hex(temp_real(j,i),4));
-        addrstr = strcat('14''d',string(addr));
+        addrstr = strcat('15''d',string(addr));
         if(mod(addr+1,3)==0)
             completeStr = strcat(addrstr,':','data <=',data,';','\n');
         else
@@ -109,9 +116,9 @@ temp_imag = radarImage_sc_q(:,2,:);
 
 for i = 1:row
     for j = 1:col
-        addr = ((i-1)*col)+((j-1));       % matlab indexing starts at 1 for some reason
+        addr = ((i-1)*col)+((j-1)) + 16384;       % matlab indexing starts at 1 for some reason + 16384 for second scene
         data = strcat('32''h',dec2hex(temp_imag(j,i),4),dec2hex(temp_real(j,i),4));
-        addrstr = strcat('14''d',string(addr));
+        addrstr = strcat('15''d',string(addr));
         if(mod(addr+1,3)==0)
             completeStr = strcat(addrstr,':','data <=',data,';','\n');
         else
@@ -130,9 +137,9 @@ temp_imag = radarImage_sc_q(:,3,:);
 
 for i = 1:row
     for j = 1:col
-        addr = ((i-1)*col)+((j-1));       % matlab indexing starts at 1 for some reason
+        addr = ((i-1)*col)+((j-1)) + 16384;       % matlab indexing starts at 1 for some reason + 16384 for second scene
         data = strcat('32''h',dec2hex(temp_imag(j,i),4),dec2hex(temp_real(j,i),4));
-        addrstr = strcat('14''d',string(addr));
+        addrstr = strcat('15''d',string(addr));
         if(mod(addr+1,3)==0)
             completeStr = strcat(addrstr,':','data <=',data,';','\n');
         else
@@ -152,9 +159,9 @@ temp_imag = radarImage_sc_q(:,4,:);
 
 for i = 1:row
     for j = 1:col
-        addr = ((i-1)*col)+((j-1));       % matlab indexing starts at 1 for some reason
+        addr = ((i-1)*col)+((j-1)) + 16384;       % matlab indexing starts at 1 for some reason + 16384 for second scene
         data = strcat('32''h',dec2hex(temp_imag(j,i),4),dec2hex(temp_real(j,i),4));
-        addrstr = strcat('14''d',string(addr));
+        addrstr = strcat('15''d',string(addr));
         if(mod(addr+1,3)==0)
             completeStr = strcat(addrstr,':','data <=',data,';','\n');
         else

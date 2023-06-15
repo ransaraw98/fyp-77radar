@@ -13,8 +13,9 @@
 		parameter integer C_M_AXIS_TDATA_WIDTH	= 32,
 		parameter integer C_M_AXIS_START_COUNT	= 32,
 		parameter integer ADDRW   =   14,
-		parameter RAM_TYPE = "block"
-	)
+		parameter RAM_TYPE = "block",
+		parameter integer CHIRP_LENGTH = 64
+ 	)
 	(
 		// Users to add ports here
 
@@ -29,7 +30,8 @@
 		output wire [C_M_AXIS_TDATA_WIDTH-1 : 0] m_axis_tdata,
 		output wire [(C_M_AXIS_TDATA_WIDTH/8)-1 : 0] m_axis_tstrb,
 		output wire  m_axis_tlast,
-		input wire  m_axis_tready
+		input wire  m_axis_tready,
+		output wire [$clog2(CHIRP_LENGTH)-1:0] m_axis_tuser
 	);
 	wire [C_M_AXIS_TDATA_WIDTH-1:0] rom_dout;
 	wire [ADDRW-1:0]   rom_addr_in;
@@ -38,7 +40,8 @@
 	radarIMG_rom_v1_0_M_AXIS # ( 
 		.C_M_AXIS_TDATA_WIDTH(C_M_AXIS_TDATA_WIDTH),
 		.C_M_AXIS_START_COUNT(C_M_AXIS_START_COUNT),
-		.ADDRW(ADDRW)
+		.ADDRW(ADDRW),
+		.CHIRP_LENGTH(CHIRP_LENGTH)
 	) radarIMG_rom_v1_0_M_AXIS_inst (
 		.M_AXIS_ACLK(m_axis_aclk),
 		.M_AXIS_ARESETN(m_axis_aresetn),
@@ -49,7 +52,8 @@
 		.M_AXIS_TREADY(m_axis_tready),
 		.data_in(rom_dout),
 		.addr_out(rom_addr_in),
-		.rom_en_out(rom_en)
+		.rom_en_out(rom_en),
+		.tuser(m_axis_tuser)
 	);
 
 	// Add user logic here

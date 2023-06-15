@@ -10,6 +10,7 @@ proc init_gui { IPINST } {
 
   set RAM_TYPE [ipgui::add_param $IPINST -name "RAM_TYPE" -widget comboBox]
   set_property tooltip {Type of ram to implement the rom} ${RAM_TYPE}
+  ipgui::add_param $IPINST -name "CHIRP_LENGTH" -widget comboBox
 
 }
 
@@ -19,6 +20,15 @@ proc update_PARAM_VALUE.ADDRW { PARAM_VALUE.ADDRW } {
 
 proc validate_PARAM_VALUE.ADDRW { PARAM_VALUE.ADDRW } {
 	# Procedure called to validate ADDRW
+	return true
+}
+
+proc update_PARAM_VALUE.CHIRP_LENGTH { PARAM_VALUE.CHIRP_LENGTH } {
+	# Procedure called to update CHIRP_LENGTH when any of the dependent parameters in the arguments change
+}
+
+proc validate_PARAM_VALUE.CHIRP_LENGTH { PARAM_VALUE.CHIRP_LENGTH } {
+	# Procedure called to validate CHIRP_LENGTH
 	return true
 }
 
@@ -68,5 +78,10 @@ proc update_MODELPARAM_VALUE.ADDRW { MODELPARAM_VALUE.ADDRW PARAM_VALUE.ADDRW } 
 proc update_MODELPARAM_VALUE.RAM_TYPE { MODELPARAM_VALUE.RAM_TYPE PARAM_VALUE.RAM_TYPE } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
 	set_property value [get_property value ${PARAM_VALUE.RAM_TYPE}] ${MODELPARAM_VALUE.RAM_TYPE}
+}
+
+proc update_MODELPARAM_VALUE.CHIRP_LENGTH { MODELPARAM_VALUE.CHIRP_LENGTH PARAM_VALUE.CHIRP_LENGTH } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.CHIRP_LENGTH}] ${MODELPARAM_VALUE.CHIRP_LENGTH}
 }
 
