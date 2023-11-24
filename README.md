@@ -1,6 +1,6 @@
 # FYP 22/23 - Scalable 77 GHz Digital Array for Autonomous Robotics
 
-```Final demonstrated design is in the branch``` **radar3_rom_ip**.
+```Final demonstrated design is on the branch``` **radar3_rom_ip**.
 
 Tool versions
 - **Vivado 2019.1**
@@ -8,6 +8,21 @@ Tool versions
 - **Python 3.9.2**
 - **MATLAB R2022b**
 - **ZCU106 development kit Rev 1.0**
+
+**ANSYSS HFSS Simulations**
+
+Project - Ansys HFSS/SLL_patch_array.aedt
+| Design | Description |
+|--------------|--------------|
+|HFSSDesign1 | A Low-sidelobe Series-fed Microstrip Patch Antenna Array for 77 GHz Automotive Radar Applications - Single antenna model : doi- https://doi.org/10.1109/CSRSWTC50769.2020.9372542 |
+|HFSSDesign2 | Array configuration for *HFSSDesign1* |
+|TI_SeriesFedArray | TI reference antenna design for evaluation board AWR2243BOOST |
+|TI_SF3_array | 3 element array configuration for *TI_SeriesFedArray* |
+
+**MATLAB Phased array toolbox simulations**
+
+Sub array simulation - ```simulation/matlab/using-toolboxes/arryOfsubarry.m```
+
 #### Radar signal processing chain 
 ![RSP_rev4_0](https://github.com/ransaraw98/fyp-77radar/assets/42471129/892d2f83-49bb-425d-94eb-fb11bd2d263c)
 
